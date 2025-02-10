@@ -12,7 +12,7 @@ export default async function middleware(req: NextRequest) {
 
   const cookie = (await cookies()).get("session")?.value;
   
-  const session = await decrypt(cookie);
+  const session = cookie ? await decrypt(cookie) : null;
 
   if (isProtectedRoute && !session?.userId) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
