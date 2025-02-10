@@ -45,3 +45,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
     - CRUD de proveedores
 
 
+## Comandos
+
+- npx prisma db seed
+- npx prisma migrate
