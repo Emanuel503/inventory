@@ -6,6 +6,7 @@ const prisma = new PrismaClient()
 
 export default async function Roles() {
     const roles = await prisma.roles.findMany();
-
+    await prisma.$disconnect();
+    
     return <DataTableRoles columns={ColumnsDataTableRoles} data={roles} />
 }
