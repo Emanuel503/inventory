@@ -1,3 +1,4 @@
+import { ColumnDef } from "@tanstack/react-table"
 import { LucideIcon } from "lucide-react"
 
 export type ItemMenu = {
@@ -15,4 +16,9 @@ export type UserSession = {
   name: string
   email: string
   avatar: string
+}
+
+export interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
 }
