@@ -7,10 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useActionState } from "react"
 import { login } from "../utils/actions"
-import { useFormStatus } from "react-dom"
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-    const [state, loginAction] = useActionState(login, undefined);
+    const [state, loginAction, pending] = useActionState(login, undefined);
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -52,16 +51,11 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                                     <div className="grid text-red-500">{state.errors.password}</div>
                                 )}
                             </div>
-                           <SubmitButton/>
+                            <Button disabled={pending} type="submit" className="w-full">Login</Button>
                         </div>
                     </form>
                 </CardContent>
             </Card>
         </div>
     )
-
-    function SubmitButton() {
-      const { pending } = useFormStatus();
-      return <Button disabled={pending} type="submit" className="w-full">Login</Button>
-    }
 }
