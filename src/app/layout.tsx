@@ -4,6 +4,7 @@ import "./globals.css";
 import { cookies } from "next/headers";
 import { decrypt } from "./login/utils/session";
 import Sliderbar from "./components/Sliderbar";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,10 @@ export default async function RootLayout({
       >
         {
           session?.userId 
-          ? <Sliderbar>{children}</Sliderbar>
+          ? <Sliderbar>
+              {children} 
+              <Toaster position="top-right" richColors />
+            </Sliderbar>
           : children
         }
       </body>
