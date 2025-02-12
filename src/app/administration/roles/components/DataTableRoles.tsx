@@ -10,6 +10,7 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Plus } from "lucide-react"
 import { DataTablePagination } from "@/app/components/DataTablePagination"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function DataTableRoles<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
 
@@ -35,65 +36,70 @@ export default function DataTableRoles<TData, TValue>({ columns, data }: DataTab
       <>
         <Title>Gestion de Roles</Title>
 
-        <div className="flex justify-between py-4">
-              <Input
-                placeholder="Buscar..."
-                value={table.getState().globalFilter ?? ""}
-                onChange={(event) => table.setGlobalFilter(event.target.value)}
-                className="max-w-sm"
-              />
+        <Card>
+          <CardContent>
+            <div className="flex justify-between py-4">
+                <Input
+                  placeholder="Buscar..."
+                  value={table.getState().globalFilter ?? ""}
+                  onChange={(event) => table.setGlobalFilter(event.target.value)}
+                  className="max-w-sm"
+                />
 
-              <Button asChild >
-                  <Link href={"/administration/roles/add"}> <Plus/> Agregar nuevo </Link>
-              </Button>
-        </div>
+                <Button asChild >
+                    <Link href={"/administration/roles/add"}> <Plus/> Agregar nuevo </Link>
+                </Button>
+            </div>
 
-        <div className="rounded-md border">
-          <Table>
-              <TableHeader>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody>
-                {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
-                    <TableRow
-                      key={row.id}
-                      data-state={row.getIsSelected() && "selected"}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            <div className="rounded-md border">
+              <Table>
+                  <TableHeader>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                      <TableRow key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => {
+                          return (
+                            <TableHead key={header.id}>
+                              {header.isPlaceholder
+                                ? null
+                                : flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext()
+                                  )}
+                            </TableHead>
+                          )
+                        })}
+                      </TableRow>
+                    ))}
+                  </TableHeader>
+                  <TableBody>
+                    {table.getRowModel().rows?.length ? (
+                      table.getRowModel().rows.map((row) => (
+                        <TableRow
+                          key={row.id}
+                          data-state={row.getIsSelected() && "selected"}
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <TableCell key={cell.id}>
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={columns.length} className="h-24 text-center">
+                          Sin resultados.
                         </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={columns.length} className="h-24 text-center">
-                      Sin resultados.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-          </Table>
-        </div>
+                      </TableRow>
+                    )}
+                  </TableBody>
+              </Table>
+            </div>
 
-        <DataTablePagination table={table} />
+            <DataTablePagination table={table} />
+
+          </CardContent>
+        </Card>
       </>
     )
 }
