@@ -26,23 +26,23 @@ export default async function RolShow({params}: {params : Promise<{ id: string}>
                 <div className='grid grid-cols-12 gap-6'>
                   <div className='col-span-12 lg:col-span-6'>
                     <Label>Nombre</Label>
-                    <Input disabled value={rol?.name}></Input>
+                    <Input disabled value={rol?.name}/>
                   </div>
 
                   <div className='col-span-12 lg:col-span-6'>
                     <Label>Descripción</Label>
-                    <Textarea disabled>{rol?.description}</Textarea>
+                    <Textarea value={rol?.description} disabled/>
                   </div>
                   
 
                   <div className='col-span-12 lg:col-span-6'>
                     <Label>Fecha de creación</Label>
-                    <Input disabled value={rol?.name}></Input>
+                    <Input disabled value={rol?.createdAt.toLocaleDateString()}/>
                   </div>
 
                   <div className='col-span-12 lg:col-span-6'>
                     <Label>Fecha de modificion</Label>
-                    <Input disabled value={rol?.name}></Input>
+                    <Input disabled value={rol?.updatedAt.toLocaleDateString()}/>
                   </div>
 
                   {/* TODO: motrar menus asignados a ese rol */}
