@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Title } from '@/components/ui/title'
 import { PrismaClient } from '@prisma/client'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 const prisma = new PrismaClient()
 
@@ -13,6 +14,8 @@ export default async function RolShow({params}: {params : Promise<{ id: string}>
     const id = parseInt((await params).id)
     const rol = await prisma.roles.findUnique({where:{ id}});
     await prisma.$disconnect();
+
+    if (!rol) notFound()
 
     return (
       <>
