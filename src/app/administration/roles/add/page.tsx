@@ -9,13 +9,13 @@ import { Title } from '@/components/ui/title'
 import { Label } from '@radix-ui/react-dropdown-menu'
 import Link from 'next/link'
 import { useActionState, useEffect } from 'react'
-import { saveUserAction } from './utils/actions'
+import { saveRolAction } from '../utils/actions'
 import { toast } from 'sonner'
 import { useRouter } from "next/navigation";
 
 export default function RolAdd() {
 
-    const [state, formAction, pending] = useActionState(saveUserAction, { success: false, message: "", errors: undefined });
+    const [state, formAction, pending] = useActionState(saveRolAction, { success: false, message: "", errors: undefined });
     const router = useRouter();
     
     useEffect(() => {

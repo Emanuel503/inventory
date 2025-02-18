@@ -10,7 +10,7 @@ import { Roles } from '@prisma/client'
 import Link from 'next/link'
 import { useActionState, useEffect } from 'react'
 import { toast } from 'sonner'
-import { editRolAction } from '../../../add/utils/actions'
+import { editRolAction } from '../../../utils/actions'
 import { useRouter } from 'next/navigation'
 import RequiredField from '@/app/components/RequiredField'
 

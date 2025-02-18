@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient()
 
-export async function saveUserAction(prevState: unknown, formData: FormData) {
+export async function saveRolAction(prevState: unknown, formData: FormData) {
     
     //Validations
     const createUserSchema = rolSchema.merge(descriptionSchema);
