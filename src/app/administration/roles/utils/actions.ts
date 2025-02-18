@@ -83,3 +83,39 @@ export async function editRolAction(prevState: unknown, formData: FormData) {
         
     return { success: true, message: `Rol "${validations.data.rol}" modificado correctamente` }; 
 }
+
+export async function deleteRolAction(prevState: unknown, formData: FormData) {
+
+    //Validations
+    const createUserSchema = idSchema;
+    const validations = createUserSchema.safeParse(Object.fromEntries(formData))
+
+    if (!validations.success) {
+        return {
+            success: false,
+            message: "Completa todos los campos",
+            errors: validations.error.flatten().fieldErrors,
+        };
+    }
+
+    const existingRole = await prisma.roles.findUnique({
+        where: { id: Number(validations.data.id) },
+    });
+
+    if (!existingRole) {
+        return {
+            success: false,
+            message: `No se encontrol el rol`,
+            errors: null,
+        };
+    }
+    
+    //Update the model 
+    await prisma.roles.delete({
+        where: { id: Number(validations.data.id)}
+    });
+
+    await prisma.$disconnect();
+        
+    return { success: true, message: `Rol "${existingRole.name}" eliminado correctamente` }; 
+}

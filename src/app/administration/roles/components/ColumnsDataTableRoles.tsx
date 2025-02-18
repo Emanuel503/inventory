@@ -6,8 +6,9 @@ import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Roles } from "@prisma/client"
-import { ListCollapse, Pencil, Trash2 } from "lucide-react"
+import { ListCollapse, Pencil } from "lucide-react"
 import Link from "next/link"
+import DeleteModal from "./DeleteModal"
 
 export const ColumnsDataTableRoles: ColumnDef<Roles>[] = [
   {
@@ -102,9 +103,8 @@ export const ColumnsDataTableRoles: ColumnDef<Roles>[] = [
                     Editar
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex gap-x-3 text-red-500">
-                  <Trash2/>
-                  Eliminar
+                <DropdownMenuItem asChild className="flex gap-x-3">
+                  <DeleteModal rol={row.original}/>
                 </DropdownMenuItem>
               </>
             )
