@@ -15,3 +15,9 @@ export const descriptionSchema = z.object({
     .max(255, {message: "La descripción debe contener 255 caracteres como maximo."})
     .trim(),
 });
+
+export const idSchema = z.object({
+  id: z
+   .string()
+   .trim(),
+});
