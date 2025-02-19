@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client"
 import DataTableUsers from "./components/DataTableUsers";
 import { ColumnsDataTableUsers } from "./components/ColumnsDataTableUsers";
-
-const prisma = new PrismaClient()
+import { prisma } from "@/utils/prisma";
 
 export default async function Users() {
   const users = await prisma.users.findMany({
@@ -12,7 +10,6 @@ export default async function Users() {
       }
     }
   });
-  await prisma.$disconnect();
 
   return <DataTableUsers columns={ColumnsDataTableUsers} data={users} />
 }

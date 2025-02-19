@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { prisma } from "@/utils/prisma"
 
 async function main() {
     //Roles seed
@@ -14,10 +13,8 @@ async function main() {
 
 main()
   .then(async () => {
-    await prisma.$disconnect()
 })
   .catch(async (e) => {
     console.error(e)
-    await prisma.$disconnect()
     process.exit(1)
 })

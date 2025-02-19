@@ -1,9 +1,7 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/utils/prisma";
 import { emailSchema, enabledSchema, idRolSchema, namesSchema, surnamesSchema, usernameSchema } from "./validations";
-
-const prisma = new PrismaClient()
 
 export async function saveUserAction(prevState: unknown, formData: FormData) {
     
@@ -67,7 +65,5 @@ export async function saveUserAction(prevState: unknown, formData: FormData) {
         },
     });
 
-    await prisma.$disconnect();
-        
     return { success: true, message: `Usuario "${validations.data.username}" creado correctamente` }; 
 }

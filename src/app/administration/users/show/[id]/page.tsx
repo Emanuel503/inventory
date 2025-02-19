@@ -4,11 +4,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/co
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Title } from '@/components/ui/title'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/utils/prisma'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-
-const prisma = new PrismaClient()
 
 export default async function UsersShow({params}: {params : Promise<{ id: string}>}) {
     const id = parseInt((await params).id)
@@ -20,7 +18,6 @@ export default async function UsersShow({params}: {params : Promise<{ id: string
       }}, 
       where: {id}
     });
-    await prisma.$disconnect();
 
     if (!user) notFound()
 
@@ -45,7 +42,7 @@ export default async function UsersShow({params}: {params : Promise<{ id: string
                   </div>
 
                   <div className='col-span-12 lg:col-span-6'>
-                    <Label>Email</Label>
+                    <Label>Emaisl</Label>
                     <Input disabled value={user?.email}/>
                   </div>
 

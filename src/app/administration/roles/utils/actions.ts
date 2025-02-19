@@ -1,9 +1,8 @@
 "use server";
 
+import { prisma } from "@/utils/prisma";
 import { descriptionSchema, idSchema, rolSchema } from "./validations";
-import { Prisma, PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient()
+import { Prisma } from "@prisma/client";
 
 export async function saveRolAction(prevState: unknown, formData: FormData) {
     
@@ -38,8 +37,6 @@ export async function saveRolAction(prevState: unknown, formData: FormData) {
         description: validations.data.description,
         },
     });
-
-    await prisma.$disconnect();
         
     return { success: true, message: `Rol "${validations.data.rol}" creado correctamente` }; 
 }
@@ -78,8 +75,6 @@ export async function editRolAction(prevState: unknown, formData: FormData) {
         },
         where: { id: Number(validations.data.id)}
     });
-
-    await prisma.$disconnect();
         
     return { success: true, message: `Rol "${validations.data.rol}" modificado correctamente` }; 
 }
@@ -128,7 +123,6 @@ export async function deleteRolAction(prevState: unknown, formData: FormData) {
             errors: null,
         };
     }
-    await prisma.$disconnect();
         
     return { success: true, message: `Rol "${existingRole.name}" eliminado correctamente` }; 
 }
