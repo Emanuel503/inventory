@@ -28,7 +28,7 @@ model Users {
   surnames          String
   email             String      @unique
   confirmedEmail    DateTime?
-  username          String
+  username          String      @unique
   idRol             Int
   role              Roles       @relation(fields: [idRol], references: [id])
   enabled           Boolean     @default(true)
