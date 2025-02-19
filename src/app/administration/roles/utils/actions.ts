@@ -1,7 +1,7 @@
 "use server";
 
 import { descriptionSchema, idSchema, rolSchema } from "./validations";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient()
 
@@ -110,11 +110,24 @@ export async function deleteRolAction(prevState: unknown, formData: FormData) {
         };
     }
     
-    //Update the model 
-    await prisma.roles.delete({
-        where: { id: Number(validations.data.id)}
-    });
-
+    try{
+        //Delete the model 
+        await prisma.roles.delete({
+            where: { id: Number(validations.data.id)}
+        })
+    }catch(error: unknown){
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2014') {
+              console.error(error.message)
+            }
+        }
+        
+        return {
+            success: false,
+            message: `No se puede eliminar el rol, esta siendo utilizado`,
+            errors: null,
+        };
+    }
     await prisma.$disconnect();
         
     return { success: true, message: `Rol "${existingRole.name}" eliminado correctamente` }; 
