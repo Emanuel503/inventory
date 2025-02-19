@@ -19,4 +19,19 @@ model Roles {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  users       Users[]
+}
+
+model Users {
+  id                Int         @id @default(autoincrement())
+  names             String    
+  surnames          String
+  email             String      @unique
+  confirmedEmail    DateTime?
+  username          String
+  idRol             Int
+  role              Roles       @relation(fields: [idRol], references: [id])
+  enabled           Boolean     @default(true)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 }
