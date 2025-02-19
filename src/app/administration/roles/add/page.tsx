@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 
 export default function RolAdd() {
 
-    const [state, formAction, pending] = useActionState(saveRolAction, { success: false, message: "", errors: undefined });
+    const [state, formAction, pending] = useActionState(saveRolAction, { success: false, message: "", errors: undefined, fields: undefined });
     const router = useRouter();
     
     useEffect(() => {
@@ -50,7 +50,7 @@ export default function RolAdd() {
                             Nombre 
                             <RequiredField/>
                           </Label>
-                          <Input type="text" name='rol' placeholder="Rol" />
+                          <Input type="text" name='rol' placeholder="Rol" defaultValue={state.fields?.rol} />
                           {state?.errors?.rol && (
                               <div className="grid text-red-500">{state.errors.rol}</div>
                           )}
@@ -61,7 +61,7 @@ export default function RolAdd() {
                             Descripción 
                             <RequiredField/>
                           </Label>
-                          <Textarea name='description' maxLength={255} placeholder="Escribe una descripcion del rol" />
+                          <Textarea name='description' maxLength={255} placeholder="Escribe una descripcion del rol" defaultValue={state.fields?.description}/>
                           {state?.errors?.description && (
                               <div className="grid text-red-500">{state.errors.description}</div>
                           )}

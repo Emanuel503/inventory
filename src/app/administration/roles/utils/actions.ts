@@ -6,15 +6,18 @@ import { Prisma } from "@prisma/client";
 
 export async function saveRolAction(prevState: unknown, formData: FormData) {
     
+    const data = Object.fromEntries(formData) as Record<string, string>;
+
     //Validations
-    const createUserSchema = rolSchema.merge(descriptionSchema);
-    const validations = createUserSchema.safeParse(Object.fromEntries(formData))
+    const createRolSchema = rolSchema.merge(descriptionSchema);
+    const validations = createRolSchema.safeParse(Object.fromEntries(formData))
 
     if (!validations.success) {
         return {
             success: false,
             message: "Completa todos los campos",
             errors: validations.error.flatten().fieldErrors,
+            fields: data
         };
     }
 
@@ -26,7 +29,10 @@ export async function saveRolAction(prevState: unknown, formData: FormData) {
         return {
             success: false,
             message: `El rol "${validations.data.rol}" ya existe.`,
-            errors: null,
+            errors: {
+                rol: ["El rol ya existe"]
+            },
+            fields: data
         };
     }
 

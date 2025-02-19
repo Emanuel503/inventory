@@ -6,6 +6,8 @@ export const rolSchema = z.object({
     .max(15, {message: "El rol debe contener 15 caracteres como maximo."})
     .min(3, {message: "El rol debe contener 3 caracteres como minimo."})
     .trim()
+    .toLowerCase()
+    .regex(/^[a-zA-Z]+$/, { message: "El rol solo puede contener letras." })
 });
 
 export const descriptionSchema = z.object({
