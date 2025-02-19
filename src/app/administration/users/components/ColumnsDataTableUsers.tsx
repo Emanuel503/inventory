@@ -78,7 +78,7 @@ export const ColumnsDataTableUsers: ColumnDef<Users & { role?: { name: string }}
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Rol
+          Estado
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
