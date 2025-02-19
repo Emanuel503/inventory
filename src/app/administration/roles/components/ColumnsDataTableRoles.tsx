@@ -57,7 +57,7 @@ export const ColumnsDataTableRoles: ColumnDef<Roles>[] = [
       )
     },
     cell: ({ row }) => {
-      return new Date(row.original.updatedAt).toLocaleDateString()
+      return new Date(row.original.updatedAt).toLocaleString()
     }
   },
   {
@@ -74,7 +74,7 @@ export const ColumnsDataTableRoles: ColumnDef<Roles>[] = [
       )
     },
     cell: ({ row }) => {
-      return new Date(row.original.updatedAt).toLocaleDateString()
+      return new Date(row.original.updatedAt).toLocaleString()
     }
   },
   {

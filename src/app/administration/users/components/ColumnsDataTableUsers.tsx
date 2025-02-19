@@ -102,7 +102,7 @@ export const ColumnsDataTableUsers: ColumnDef<Users & { role?: { name: string }}
       )
     },
     cell: ({ row }) => {
-      return new Date(row.original.updatedAt).toLocaleDateString()
+      return new Date(row.original.updatedAt).toLocaleString()
     }
   },
   {
@@ -119,7 +119,7 @@ export const ColumnsDataTableUsers: ColumnDef<Users & { role?: { name: string }}
       )
     },
     cell: ({ row }) => {
-      return new Date(row.original.updatedAt).toLocaleDateString()
+      return new Date(row.original.updatedAt).toLocaleString()
     }
   },
   {

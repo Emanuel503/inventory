@@ -40,12 +40,12 @@ export default async function RolShow({params}: {params : Promise<{ id: string}>
 
                   <div className='col-span-12 lg:col-span-6'>
                     <Label>Fecha de creación</Label>
-                    <Input disabled value={rol?.createdAt.toLocaleDateString()}/>
+                    <Input disabled value={rol?.createdAt.toLocaleString()}/>
                   </div>
 
                   <div className='col-span-12 lg:col-span-6'>
                     <Label>Fecha de modificion</Label>
-                    <Input disabled value={rol?.updatedAt.toLocaleDateString()}/>
+                    <Input disabled value={rol?.updatedAt.toLocaleString()}/>
                   </div>
 
                   {/* TODO: motrar menus asignados a ese rol */}
