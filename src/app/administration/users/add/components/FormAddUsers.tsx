@@ -4,7 +4,6 @@
 
 import RequiredField from '@/app/components/RequiredField'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Title } from '@/components/ui/title'
 import { Label } from '@radix-ui/react-dropdown-menu'
@@ -47,131 +46,124 @@ export default function FormAddUsers({roles} : {roles: Roles[]}) {
           <Title>Agregar usuario</Title>
 
           <form action={formAction}>
-              <Card>
-                <CardHeader>
-                    <CardDescription>Agregar un nuevo usuario</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="grid w-full items-center gap-4">
-                        <div className="flex flex-col space-y-1.5">
+              <div className="grid w-full items-center gap-4">
+                  <div className="flex flex-col space-y-1.5">
+                    <Label>
+                      Nombre 
+                      <RequiredField/>
+                    </Label>
+                    <Input type="text" name='names' placeholder="Emanuel Jose" defaultValue={state.fields?.names}/>
+                    {state?.errors?.names && (
+                        <div className="grid text-red-500">{state.errors.names}</div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col space-y-1.5">
+                    <Label>
+                      Apellidos 
+                      <RequiredField/>
+                    </Label>
+                    <Input type="text" name='surnames' placeholder="Molina Zúniga" defaultValue={state.fields?.surnames}/>
+                    {state?.errors?.surnames && (
+                        <div className="grid text-red-500">{state.errors.surnames}</div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col space-y-1.5">
+                    <Label>
+                      Email 
+                      <RequiredField/>
+                    </Label>
+                    <Input type="email" name='email' placeholder="emanuel@gmail.com" defaultValue={state.fields?.email}/>
+                    {state?.errors?.email && (
+                        <div className="grid text-red-500">{state.errors.email}</div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col space-y-1.5">
+                    <Label>
+                      Nombre de usuario 
+                      <RequiredField/>
+                    </Label>
+                    <Input type="text" name='username' placeholder="emolina" defaultValue={state.fields?.username}/>
+                    {state?.errors?.username && (
+                        <div className="grid text-red-500">{state.errors.username}</div>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-12 space-y-1.5">
+                      <div className='col-span-12 xl:col-span-6 flex flex-col space-y-1.5'>
                           <Label>
-                            Nombre 
-                            <RequiredField/>
+                              Rol
+                              <RequiredField/>
                           </Label>
-                          <Input type="text" name='names' placeholder="Emanuel Jose" defaultValue={state.fields?.names}/>
-                          {state?.errors?.names && (
-                              <div className="grid text-red-500">{state.errors.names}</div>
-                          )}
-                        </div>
+                          
+                          <input name="idRol" defaultValue={value} hidden/>
 
-                        <div className="flex flex-col space-y-1.5">
-                          <Label>
-                            Apellidos 
+                          <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={open}
+                                className=" lg:w-96 justify-between"
+                              >
+                                {value ? roles.find((rol) => rol.name === value)?.name : "Selecciona un Rol"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="lg:w-96 p-0">
+                              {/* @ts-expect-error */}
+                              <Command>
+                                <CommandInput />
+                                {/* @ts-expect-error */}
+                                <CommandList>
+                                  {/* @ts-expect-error */}
+                                  <CommandEmpty>No se han encontrado roles.</CommandEmpty>
+                                  {/* @ts-expect-error */}
+                                  <CommandGroup>
+                                    {roles.map((rol) => (
+                                      // @ts-expect-error
+                                      <CommandItem
+                                        key={rol.id}
+                                        value={rol.id}
+                                        onSelect={(currentValue: string) => {                                          
+                                          setValue(currentValue === value ? "" : currentValue)
+                                          setOpen(false)
+                                        }}
+                                      >
+                                        <Check className={cn( "mr-2 h-4 w-4", value === rol.name ? "opacity-100" : "opacity-0" )} />
+                                        {rol.name}
+                                      </CommandItem>
+                                    ))}
+                                  </CommandGroup>
+                                </CommandList>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
+                          {state?.errors?.idRol && (
+                              <div className="grid text-red-500">{state.errors.idRol}</div>
+                          )}
+                      </div>
+                  
+                      <div className="col-span-12 xl:col-span-6 flex flex-col space-y-1.5">
+                        <Label>
+                            Habilitado 
                             <RequiredField/>
-                          </Label>
-                          <Input type="text" name='surnames' placeholder="Molina Zúniga" defaultValue={state.fields?.surnames}/>
-                          {state?.errors?.surnames && (
-                              <div className="grid text-red-500">{state.errors.surnames}</div>
-                          )}
-                        </div>
-
-                        <div className="flex flex-col space-y-1.5">
-                          <Label>
-                            Email 
-                            <RequiredField/>
-                          </Label>
-                          <Input type="email" name='email' placeholder="emanuel@gmail.com" defaultValue={state.fields?.email}/>
-                          {state?.errors?.email && (
-                              <div className="grid text-red-500">{state.errors.email}</div>
-                          )}
-                        </div>
-
-                        <div className="flex flex-col space-y-1.5">
-                          <Label>
-                            Nombre de usuario 
-                            <RequiredField/>
-                          </Label>
-                          <Input type="text" name='username' placeholder="emolina" defaultValue={state.fields?.username}/>
-                          {state?.errors?.username && (
-                              <div className="grid text-red-500">{state.errors.username}</div>
-                          )}
-                        </div>
-
-                        <div className="grid grid-cols-12 space-y-1.5">
-                            <div className='col-span-12 xl:col-span-6 flex flex-col space-y-1.5'>
-                                <Label>
-                                    Rol
-                                    <RequiredField/>
-                                </Label>
-                                
-                                <input name="idRol" defaultValue={value} hidden/>
-
-                                <Popover open={open} onOpenChange={setOpen}>
-                                  <PopoverTrigger asChild>
-                                    <Button
-                                      variant="outline"
-                                      role="combobox"
-                                      aria-expanded={open}
-                                      className=" lg:w-96 justify-between"
-                                    >
-                                      {value ? roles.find((rol) => rol.name === value)?.name : "Selecciona un Rol"}
-                                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                  </PopoverTrigger>
-                                  <PopoverContent className="lg:w-96 p-0">
-                                    {/* @ts-expect-error */}
-                                    <Command>
-                                      <CommandInput />
-                                      {/* @ts-expect-error */}
-                                      <CommandList>
-                                        {/* @ts-expect-error */}
-                                        <CommandEmpty>No se han encontrado roles.</CommandEmpty>
-                                        {/* @ts-expect-error */}
-                                        <CommandGroup>
-                                          {roles.map((rol) => (
-                                            // @ts-expect-error
-                                            <CommandItem
-                                              key={rol.id}
-                                              value={rol.id}
-                                              onSelect={(currentValue: string) => {                                          
-                                                setValue(currentValue === value ? "" : currentValue)
-                                                setOpen(false)
-                                              }}
-                                            >
-                                              <Check className={cn( "mr-2 h-4 w-4", value === rol.name ? "opacity-100" : "opacity-0" )} />
-                                              {rol.name}
-                                            </CommandItem>
-                                          ))}
-                                        </CommandGroup>
-                                      </CommandList>
-                                    </Command>
-                                  </PopoverContent>
-                                </Popover>
-                                {state?.errors?.idRol && (
-                                    <div className="grid text-red-500">{state.errors.idRol}</div>
-                                )}
-                            </div>
-                       
-                            <div className="col-span-12 xl:col-span-6 flex flex-col space-y-1.5">
-                              <Label>
-                                  Habilitado 
-                                  <RequiredField/>
-                              </Label>
-                              <Switch defaultChecked name='enabled'/>
-                              {state?.errors?.enabled && (
-                                <div className="grid text-red-500">{state.errors.enabled}</div>
-                              )}
-                            </div>
-                        </div>
-                    </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                    <Button asChild variant="outline">
-                      <Link href='/administration/users'>Cancelar</Link>
-                    </Button>
-                    <Button disabled={pending}>Guardar</Button>
-                </CardFooter>
-              </Card>
+                        </Label>
+                        <Switch defaultChecked name='enabled'/>
+                        {state?.errors?.enabled && (
+                          <div className="grid text-red-500">{state.errors.enabled}</div>
+                        )}
+                      </div>
+                  </div>
+              </div>
+              <div className="flex justify-between mt-10">
+                <Button asChild variant="outline">
+                  <Link href='/administration/users'>Cancelar</Link>
+                </Button>
+                <Button disabled={pending}>Guardar</Button>
+              </div>
           </form>
         </>
     )

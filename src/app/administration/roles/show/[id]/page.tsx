@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -17,44 +16,36 @@ export default async function RolShow({params}: {params : Promise<{ id: string}>
     return (
       <>
         <Title>Detalles rol</Title>
+        <div className='grid grid-cols-12 gap-6'>
+          <div className='col-span-12 lg:col-span-6'>
+            <Label>Nombre</Label>
+            <Input disabled value={rol?.name}/>
+          </div>
 
-          <Card>
-            <CardHeader>
-                <CardDescription>Detalles del rol </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div className='grid grid-cols-12 gap-6'>
-                  <div className='col-span-12 lg:col-span-6'>
-                    <Label>Nombre</Label>
-                    <Input disabled value={rol?.name}/>
-                  </div>
+          <div className='col-span-12 lg:col-span-6'>
+            <Label>Descripción</Label>
+            <Textarea value={rol?.description} disabled/>
+          </div>
+          
 
-                  <div className='col-span-12 lg:col-span-6'>
-                    <Label>Descripción</Label>
-                    <Textarea value={rol?.description} disabled/>
-                  </div>
-                  
+          <div className='col-span-12 lg:col-span-6'>
+            <Label>Fecha de creación</Label>
+            <Input disabled value={rol?.createdAt.toLocaleString()}/>
+          </div>
 
-                  <div className='col-span-12 lg:col-span-6'>
-                    <Label>Fecha de creación</Label>
-                    <Input disabled value={rol?.createdAt.toLocaleString()}/>
-                  </div>
+          <div className='col-span-12 lg:col-span-6'>
+            <Label>Fecha de modificion</Label>
+            <Input disabled value={rol?.updatedAt.toLocaleString()}/>
+          </div>
 
-                  <div className='col-span-12 lg:col-span-6'>
-                    <Label>Fecha de modificion</Label>
-                    <Input disabled value={rol?.updatedAt.toLocaleString()}/>
-                  </div>
-
-                  {/* TODO: motrar menus asignados a ese rol */}
-                
-                </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-                <Button asChild variant="outline">
-                  <Link href='/administration/roles'>Regresar</Link>
-                </Button>
-            </CardFooter>
-          </Card>
+          {/* TODO: motrar menus asignados a ese rol */}
+        
+        </div>
+        <div className="flex justify-between mt-10">
+            <Button asChild variant="outline">
+              <Link href='/administration/roles'>Regresar</Link>
+            </Button>
+        </div>
       </>
     )
 }
