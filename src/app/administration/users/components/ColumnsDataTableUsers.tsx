@@ -9,6 +9,7 @@ import { Users } from "@prisma/client"
 import { ListCollapse, Pencil } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
+import DeleteModal from "./DeleteModal"
 
 export const ColumnsDataTableUsers: ColumnDef<Users & { role?: { name: string }}>[] = [
   {
@@ -149,7 +150,7 @@ export const ColumnsDataTableUsers: ColumnDef<Users & { role?: { name: string }}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="flex gap-x-3">
-                  {/* <DeleteModal rol={row.original}/> */}
+                  <DeleteModal key={row.original.id} user={row.original}/>
                 </DropdownMenuItem>
               </>
             )

@@ -48,3 +48,10 @@ export const enabledSchema = z.object({
         .string()
         .optional()
 });
+
+export const idSchema = z.object({
+    id: z
+        .string()
+        .trim()
+        .min(1, " El id es requerido")
+});
