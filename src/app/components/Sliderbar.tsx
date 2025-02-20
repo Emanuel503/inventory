@@ -19,7 +19,7 @@ export default function Sliderbar({
                     <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 mt-4 md:min-h-min p-5">
                         <NavBreadcrumb />
                         <Card>
-                            <CardContent>
+                            <CardContent className="min-h-[85vh]">
                                 {children}
                             </CardContent>
                         </Card>
