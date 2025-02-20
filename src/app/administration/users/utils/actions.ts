@@ -56,11 +56,26 @@ export async function saveUserAction(prevState: unknown, formData: FormData) {
         };
     }
 
+    const role = await prisma.roles.findFirst({
+        where: { name: validations.data.idRol },
+    });
+
+    if(!role){
+        return {
+            success: false,
+            message: `El rol ingresado no existe`,
+            errors: {
+                idRol: ["El rol ingresado no existe"]
+            },
+            fields: data
+        };
+    }
+
     //Save the model 
     await prisma.users.create({
         data: {
             ...validations.data,
-            idRol: Number(validations.data.idRol),
+            idRol: role.id,
             enabled: validations.data?.enabled ? true : false
         },
     });
