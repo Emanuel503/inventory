@@ -1,7 +1,9 @@
+import { Title } from "@/components/ui/title";
+
 export default function Page() {
   return (
     <>
-      Dashboard
+      <Title>Dashboard</Title>
     </>
   )
 }
