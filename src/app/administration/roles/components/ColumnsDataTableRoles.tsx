@@ -104,7 +104,7 @@ export const ColumnsDataTableRoles: ColumnDef<Roles>[] = [
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="flex gap-x-3">
-                  <DeleteModal rol={row.original}/>
+                  <DeleteModal key={row.original.id} rol={row.original}/>
                 </DropdownMenuItem>
               </>
             )
