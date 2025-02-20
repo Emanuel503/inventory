@@ -42,7 +42,7 @@ export default async function UsersShow({params}: {params : Promise<{ id: string
                   </div>
 
                   <div className='col-span-12 lg:col-span-6'>
-                    <Label>Emaisl</Label>
+                    <Label>Email</Label>
                     <Input disabled value={user?.email}/>
                   </div>
 
