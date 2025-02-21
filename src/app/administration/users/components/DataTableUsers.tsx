@@ -4,14 +4,13 @@ import { ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, g
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Title } from "@/components/ui/title"
 import { DataTableProps } from "@/app/types"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Plus } from "lucide-react"
 import { DataTablePagination } from "@/app/components/DataTablePagination"
 
-export default function DataTableUsers<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export default function DataTableUsers<TData, TValue>({ columns, data, buttonAdd }: DataTableProps<TData, TValue>) {
 
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -33,9 +32,8 @@ export default function DataTableUsers<TData, TValue>({ columns, data }: DataTab
 
     return (
       <>
-        <Title>Gestion de Usuarios</Title>
 
-        <div className="flex justify-between py-4">
+        <div className="flex justify-between pb-4">
             <Input
               placeholder="Buscar..."
               value={table.getState().globalFilter ?? ""}
@@ -43,9 +41,12 @@ export default function DataTableUsers<TData, TValue>({ columns, data }: DataTab
               className="max-w-sm"
             />
 
-            <Button asChild >
-                <Link href={"/administration/users/add"}> <Plus/> Agregar nuevo </Link>
-            </Button>
+            {
+              buttonAdd &&
+                <Button asChild >
+                    <Link href={buttonAdd}> <Plus/> Agregar nuevo </Link>
+                </Button>
+            }
         </div>
 
         <div className="rounded-md border">
