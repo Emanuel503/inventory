@@ -1,6 +1,7 @@
 import DataTableUsers from "./components/DataTableUsers";
 import { ColumnsDataTableUsers } from "./components/ColumnsDataTableUsers";
 import { prisma } from "@/utils/prisma";
+import { Title } from "@/components/ui/title";
 
 export default async function Users() {
   const users = await prisma.users.findMany({
@@ -11,5 +12,11 @@ export default async function Users() {
     }
   });
 
-  return <DataTableUsers columns={ColumnsDataTableUsers} data={users} />
+  return (
+    <>
+      <Title>Gestion de Usuarios</Title>
+      
+      <DataTableUsers columns={ColumnsDataTableUsers} data={users} buttonAdd={'/administration/users/add'} />
+    </>
+  )
 }
