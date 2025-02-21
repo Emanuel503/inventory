@@ -16,7 +16,7 @@ export default async function Users() {
     <>
       <Title>Gestion de Usuarios</Title>
       
-      <DataTableUsers columns={ColumnsDataTableUsers} data={users} buttonAdd={'/administration/users/add'} />
+      <DataTableUsers columns={ColumnsDataTableUsers} data={users} buttonAdd />
     </>
   )
 }

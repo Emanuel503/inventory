@@ -44,7 +44,7 @@ export default function DataTableUsers<TData, TValue>({ columns, data, buttonAdd
             {
               buttonAdd &&
                 <Button asChild >
-                    <Link href={buttonAdd}> <Plus/> Agregar nuevo </Link>
+                    <Link href="/administration/users/add"> <Plus/> Agregar nuevo </Link>
                 </Button>
             }
         </div>
