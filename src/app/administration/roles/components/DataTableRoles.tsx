@@ -4,14 +4,13 @@ import { ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, g
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Title } from "@/components/ui/title"
 import { DataTableProps } from "@/app/types"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Plus } from "lucide-react"
 import { DataTablePagination } from "@/app/components/DataTablePagination"
 
-export default function DataTableRoles<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export default function DataTableRoles<TData, TValue>({ columns, data, buttonAdd }: DataTableProps<TData, TValue>) {
 
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -33,8 +32,6 @@ export default function DataTableRoles<TData, TValue>({ columns, data }: DataTab
 
     return (
       <>
-        <Title>Gestion de Roles</Title>
-
         <div className="flex justify-between py-4">
             <Input
               placeholder="Buscar..."
@@ -43,9 +40,12 @@ export default function DataTableRoles<TData, TValue>({ columns, data }: DataTab
               className="max-w-sm"
             />
 
-            <Button asChild >
-                <Link href={"/administration/roles/add"}> <Plus/> Agregar nuevo </Link>
-            </Button>
+            {
+              buttonAdd &&
+                <Button asChild >
+                    <Link href={"/administration/roles/add"}> <Plus/> Agregar nuevo </Link>
+                </Button>
+            }
         </div>
 
         <div className="rounded-md border">
