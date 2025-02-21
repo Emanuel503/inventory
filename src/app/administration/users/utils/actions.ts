@@ -170,3 +170,83 @@ export async function deleteUserAction(prevState: unknown, formData: FormData){
         
     return { success: true, message: `Usuario "${existingUser.username}" eliminado correctamente` }; 
 }
+
+export async function editUserAction(prevState: unknown, formData: FormData) {
+
+    const data = Object.fromEntries(formData) as Record<string, string>;
+
+    //Validations
+    const createUserSchema = namesSchema
+                                .merge(surnamesSchema)
+                                .merge(emailSchema)
+                                .merge(usernameSchema)
+                                .merge(idRolSchema)
+                                .merge(enabledSchema)
+                                .merge(idSchema);
+
+    const validations = createUserSchema.safeParse(Object.fromEntries(formData))
+
+    if (!validations.success) {
+        return {
+            success: false,
+            message: "Completa todos los campos",
+            errors: validations.error.flatten().fieldErrors,
+        };
+    }
+
+    const existingUserEmail = await prisma.users.findFirst({
+        where: { email: validations.data.email },
+    });
+
+    if (existingUserEmail && existingUserEmail.id !== Number(validations.data.id)) {
+        return {
+            success: false,
+            message: `El email "${validations.data.email}" ya existe.`,
+            errors: null,
+            fields: data
+        };
+    }
+
+    const existingUserUsername = await prisma.users.findFirst({
+        where: { username: validations.data.username },
+    });
+
+    if (existingUserUsername && existingUserUsername.id !==  Number(validations.data.id)) {
+        return {
+            success: false,
+            message: `El nombre de usuario "${validations.data.username}" ya existe.`,
+            errors: null,
+            fields: data
+        };
+    }
+
+
+    const role = await prisma.roles.findFirst({
+        where: { name: validations.data.idRol },
+    });
+
+    
+    if(!role){
+        return {
+            success: false,
+            message: `El rol ingresado no existe`,
+            errors: null,
+            fields: data
+        };
+    }
+
+    //Update the model 
+    await prisma.users.update({
+        data: {
+            names: validations.data.names,
+            surnames: validations.data.surnames,
+            username: validations.data.username,
+            email: validations.data.email,
+            idRol: role.id,
+            enabled: validations.data?.enabled ? true : false
+        },
+        where: { id: Number(validations.data.id)}
+    });
+        
+    return { success: true, message: `Usuario "${validations.data.username}" modificado correctamente` }; 
+}
