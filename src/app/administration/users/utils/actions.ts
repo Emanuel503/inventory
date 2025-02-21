@@ -3,6 +3,9 @@
 import { prisma } from "@/utils/prisma";
 import { emailSchema, enabledSchema, idRolSchema, idSchema, namesSchema, surnamesSchema, usernameSchema } from "./validations";
 import { Prisma } from "@prisma/client";
+import bcrypt from "bcrypt";
+import { generateSecurePassword } from "@/utils/functions";
+import { sendEmail } from "@/utils/serverFunctions";
 
 export async function saveUserAction(prevState: unknown, formData: FormData) {
     
@@ -72,14 +75,31 @@ export async function saveUserAction(prevState: unknown, formData: FormData) {
         };
     }
 
+    const generatedPassword = generateSecurePassword();
+    const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+
     //Save the model 
     await prisma.users.create({
         data: {
             ...validations.data,
             idRol: role.id,
-            enabled: validations.data?.enabled ? true : false
+            enabled: validations.data?.enabled ? true : false,
+            password: hashedPassword
         },
     });
+
+
+    //Send Email
+    const nameApp = process.env.NAME_APP;
+    const subject = `Creacion de usuario ${nameApp}`
+    const htmlContent = `<div>${generatedPassword}</div>`
+    
+    const to = [{
+        name: `${validations.data.names} ${validations.data.surnames}`,
+        email: validations.data.names
+    }];
+
+    await sendEmail(subject, htmlContent, to)
 
     return { success: true, message: `Usuario "${validations.data.username}" creado correctamente` }; 
 }
