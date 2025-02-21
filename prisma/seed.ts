@@ -1,4 +1,7 @@
-import { prisma } from "@/utils/prisma"
+import { PrismaClient } from '@prisma/client'
+import bcrypt from "bcrypt";
+
+const prisma = new PrismaClient()
 
 async function main() {
     //Roles seed
@@ -9,10 +12,25 @@ async function main() {
             description: 'Administrador del sistema'
         }
     })
+
+    // Users seed
+    await prisma.users.create({
+      data: {
+          id: 1,
+          names: "Emanuel José",
+          surnames: "Molina Zúnga",
+          email: "emanueljosemolina@gmail.com",
+          idRol: 1,
+          username: "emolina",
+          confirmedEmail: new Date(),
+          password: await bcrypt.hash("12345678", 10),
+      }
+    })
 }
 
 main()
   .then(async () => {
+    await prisma.$disconnect()
 })
   .catch(async (e) => {
     console.error(e)
