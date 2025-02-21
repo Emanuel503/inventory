@@ -37,9 +37,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## TODO
 
-- CRUD de roles
-- CRUD de usuarios
-- CRUD de asignacion de roles
+- CRUD de roles ✅ (Solo se podra ver el detalle de los roles)
+- CRUD de usuarios ✅
+- Terminar login
+- Validacion de rutas por rol
+- Perfil de usuario
+    - Edicion de usuario: nombre, apellidos, contraseña, foto
+    - Gestion de sesiones
+    - Configuracion de doble autenticacion
 - CRUD de productos
     - CRUD de categorias
     - CRUD de proveedores
