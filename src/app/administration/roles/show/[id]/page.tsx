@@ -1,3 +1,5 @@
+import { ColumnsDataTableUsers } from '@/app/administration/users/components/ColumnsDataTableUsers'
+import DataTableUsers from '@/app/administration/users/components/DataTableUsers'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -9,13 +11,27 @@ import { notFound } from 'next/navigation'
 
 export default async function RolShow({params}: {params : Promise<{ id: string}>}) {
     const id = parseInt((await params).id)
-    const rol = await prisma.roles.findUnique({where:{ id}});
+    const rol = await prisma.roles.findUnique({
+      where: {id},
+      include:{
+        users: {
+          include: {
+            role:{
+              select: {
+                name: true
+              }
+            }
+          }
+        }
+      }
+    });
 
     if (!rol) notFound()
 
     return (
       <>
         <Title>Detalles rol</Title>
+        
         <div className='grid grid-cols-12 gap-6'>
           <div className='col-span-12 lg:col-span-6'>
             <Label>Nombre</Label>
@@ -37,10 +53,12 @@ export default async function RolShow({params}: {params : Promise<{ id: string}>
             <Label>Fecha de modificion</Label>
             <Input disabled value={rol?.updatedAt.toLocaleString()}/>
           </div>
-
-          {/* TODO: motrar menus asignados a ese rol */}
-        
         </div>
+
+        <Title classNames='my-6'>Usuarios con el rol</Title>
+
+        <DataTableUsers columns={ColumnsDataTableUsers} data={rol.users}/>
+        
         <div className="flex justify-between mt-10">
             <Button asChild variant="outline">
               <Link href='/administration/roles'>Regresar</Link>
