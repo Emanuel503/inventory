@@ -90,16 +90,18 @@ export async function saveUserAction(prevState: unknown, formData: FormData) {
 
 
     //Send Email
-    const nameApp = process.env.NAME_APP;
-    const subject = `Creacion de usuario ${nameApp}`
+    const subject = `Creación de usuario ${process.env.APP_NAME}`
     const htmlContent = `<div>${generatedPassword}</div>`
-    
     const to = [{
         name: `${validations.data.names} ${validations.data.surnames}`,
-        email: validations.data.names
+        email: validations.data.email
     }];
 
-    await sendEmail(subject, htmlContent, to)
+    try{
+        await sendEmail(subject, htmlContent, to)
+    }catch(error){
+        console.error(JSON.stringify(error))
+    }
 
     return { success: true, message: `Usuario "${validations.data.username}" creado correctamente` }; 
 }
