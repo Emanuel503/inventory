@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { decrypt } from "./login/utils/session";
 import Sliderbar from "./components/Sliderbar";
 import { Toaster } from "sonner";
+import { prisma } from "@/utils/prisma";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,18 @@ export default async function RootLayout({
   const cookie = (await cookies()).get("session")?.value;
   const session = cookie ? await decrypt(cookie): null;
 
+  const menus = await prisma.menus.findMany({
+    where: { 
+        menu: true,
+        AND:{
+            idFather: null, 
+        }
+    },
+    include: {
+      children: true
+    }
+ })
+
   return (
     <html lang="es" suppressHydrationWarning>
       <body
@@ -37,7 +50,7 @@ export default async function RootLayout({
       >
         {
           session?.userId 
-          ? <Sliderbar>
+          ? <Sliderbar menus={menus}>
               {children} 
               <Toaster position="top-right" richColors />
             </Sliderbar>

@@ -3,16 +3,19 @@ import { AppSidebar } from "./AppSidebar"
 import NavBreadcrumb from "./NavBreadcrumb";
 import NavegationMenuNav from "./NavigationMenuNav";
 import { Card, CardContent} from "@/components/ui/card";
+import { MenusChildren } from "../types";
 
-export default function Sliderbar({
+export default async function Sliderbar({
     children,
+    menus
   }: Readonly<{
     children: React.ReactNode;
+    menus: MenusChildren[]
   }>) {
 
     return (
         <SidebarProvider>
-            <AppSidebar />
+            <AppSidebar menu={menus}/>
             <SidebarInset>
                 <NavegationMenuNav/>
                 <div className="flex flex-1 flex-col p-4 pt-0">

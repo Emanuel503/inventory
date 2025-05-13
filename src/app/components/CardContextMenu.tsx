@@ -1,13 +1,9 @@
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu"
 import Link from "next/link"
 import LegendMoreOptions from "../components/LegendMoreOptions"
-import { Menus } from "@prisma/client";
 import { Eye, List, LockKeyhole, Plus, Trash2, UserCogIcon } from "lucide-react";
 import { JSX } from "react";
-
-interface PropsCardContextMenu extends Menus {
-    children: Menus[];
-}
+import { MenusChildren } from "../types";
 
 const icons:  { [key: string]: JSX.Element } = {
     "UserCog": <UserCogIcon size={48}/>,
@@ -19,14 +15,14 @@ const icons:  { [key: string]: JSX.Element } = {
 
 }
 
-export default function CardContextMenu(props: PropsCardContextMenu) {
-    const {icon, children, title, url} = props
+export default function CardContextMenu(props: MenusChildren) {
+    const {icon, children, description, url} = props
     return (
         <Link key={url} href={url} className="col-span-4 border hover:bg-gray-50 bg-white rounded-lg w-80 cursor-pointer">
             <ContextMenu>
                 <ContextMenuTrigger className="flex flex-col items-center justify-center gap-3 p-5">
                     {icons[icon] }
-                    <h5 className="font-semibold">{title}</h5>
+                    <h5 className="font-semibold">{description}</h5>
                     <LegendMoreOptions/>
                 </ContextMenuTrigger>
                 <ContextMenuContent>

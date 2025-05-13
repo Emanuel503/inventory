@@ -4,8 +4,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, } f
 import { Team } from "./Team"
 import { NavMain } from "./NavMain"
 import { NavUser } from "./NavUser"
-import { menu } from "@/utils/menu"
-import { UserSession } from "../types"
+import { MenusChildren, UserSession } from "../types"
 
 const user : UserSession = {
     name: "Emanuel Molina",
@@ -13,7 +12,11 @@ const user : UserSession = {
     avatar: "https://petsastherapy.org/images/uploads/cutouts/Cats_for_website_2.0_copy_.png",
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  menu: MenusChildren[];
+}
+
+export function AppSidebar({ menu, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

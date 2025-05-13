@@ -7,12 +7,13 @@ export default async function AdministrationPage() {
   const menus = await prisma.menus.findMany({
     where: {
       idFather: 2,
-      AND: {
-        menu: false
-      }
     },
     include: {
-      children: true
+      children: {
+        orderBy:{
+          id: "asc"
+        }
+      }
     }
  })
 
