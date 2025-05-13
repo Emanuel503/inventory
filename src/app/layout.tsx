@@ -38,6 +38,9 @@ export default async function RootLayout({
             idFather: null, 
         }
     },
+    orderBy: {
+      id: "asc"
+    },
     include: {
       children: true
     }
