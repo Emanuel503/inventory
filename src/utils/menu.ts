@@ -1,39 +1,13 @@
-import { ItemMenu } from "@/app/types";
-import { Bolt, GaugeCircle, Settings2 } from "lucide-react";
+import { Bolt, Eye, GaugeCircle, List, LockKeyhole, LucideIcon, Plus, Settings2, Trash2, UserCogIcon } from "lucide-react"
 
-export const menu : ItemMenu[] = [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: GaugeCircle,
-      isActive: true,
-      items: []
-    },
-    {
-      title: "Administración",
-      url: "/administration",
-      icon: Bolt,
-      isActive: true,
-      items: [
-        {
-          title: "Usuarios",
-          url: "/users",
-        },
-        {
-          title: "Roles",
-          url: "/roles",
-        },
-      ],
-    },
-    {
-      title: "Configuración",
-      url: "/settings",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-      ],
-    },
-]
+export const iconsMenu: { [key: string]: LucideIcon } = {
+  GaugeCircle,
+  Bolt,
+  Settings2,
+  Eye, 
+  List, 
+  LockKeyhole, 
+  Plus, 
+  Trash2, 
+  UserCogIcon 
+};
