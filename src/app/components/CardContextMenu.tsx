@@ -1,41 +1,44 @@
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu"
 import Link from "next/link"
 import LegendMoreOptions from "../components/LegendMoreOptions"
-import { LucideIcon } from "lucide-react"
+import { Menus } from "@prisma/client";
+import { Eye, List, LockKeyhole, Plus, Trash2, UserCogIcon } from "lucide-react";
+import { JSX } from "react";
 
-interface MenuItem {
-    name: string;
-    icon: LucideIcon;
-    path: string;
+interface PropsCardContextMenu extends Menus {
+    children: Menus[];
 }
 
-interface PropsCardContextMenu {
-    name: string;
-    icon: LucideIcon;
-    path: string;
-    items: MenuItem[];
+const icons:  { [key: string]: JSX.Element } = {
+    "UserCog": <UserCogIcon size={48}/>,
+    "LockKeyhole": <LockKeyhole size={48}/>,
+    "List": <List/>,
+    "Plus": <Plus/>,
+    "Eye": <Eye/>,
+    "Trash2": <Trash2/>,
+
 }
 
 export default function CardContextMenu(props: PropsCardContextMenu) {
-    const {icon: Icon, items, name, path} = props
+    const {icon, children, title, url} = props
     return (
-        <Link key={path} href={path} className="col-span-4 border hover:bg-gray-50 bg-white rounded-lg w-80 cursor-pointer">
+        <Link key={url} href={url} className="col-span-4 border hover:bg-gray-50 bg-white rounded-lg w-80 cursor-pointer">
             <ContextMenu>
                 <ContextMenuTrigger className="flex flex-col items-center justify-center gap-3 p-5">
-                    <Icon size={46} />
-                    <h5 className="font-semibold">{name}</h5>
+                    {icons[icon] }
+                    <h5 className="font-semibold">{title}</h5>
                     <LegendMoreOptions/>
                 </ContextMenuTrigger>
                 <ContextMenuContent>
                     {
-                        items.map((submenu, index) => {
-                            const SubmenuIcon = submenu.icon;
+                        children.map((submenu, index) => {
 
                             return (
-                                <Link key={submenu.path + index} href={submenu.path}>
+                                <Link key={submenu.url + index} href={submenu.url}>
                                     <ContextMenuItem className="flex gap-3 cursor-pointer">
-                                        <SubmenuIcon />
-                                        {submenu.name}
+
+                                        {icons[submenu.icon] }
+                                        {submenu.title}
                                     </ContextMenuItem>
                                 </Link>
                             ) 

@@ -1,65 +1,21 @@
 import { Title } from "@/components/ui/title"
-import { Eye, List, LockKeyhole, Plus, Trash2, UserCog } from "lucide-react"
 import CardContextMenu from "../components/CardContextMenu"
+import { prisma } from "@/utils/prisma";
 
-const menus = [
-    {
-        name: "Administración de Usuarios",
-        icon: UserCog,
-        path: "/administration/users",
-        items: [
-            {
-                name: "Listado de usuarios",
-                icon: List,
-                path: "/administration/users",
-            },
-            {
-                name: "Agregar usuario",
-                icon: Plus,
-                path: "/administration/users/add",
-            },
-            {
-                name: "Ver usuario",
-                icon: Eye,
-                path: "/administration/users",
-            },
-            {
-                name: "Eliminar usuario",
-                icon: Trash2,
-                path: "/administration/users",
-            },
-        ]
-    },
-    {
-        name: "Administración de Roles",
-        icon: LockKeyhole,
-        path: "/administration/roles",
-        items: [
-            {
-                name: "Listado de roles",
-                icon: List,
-                path: "/administration/roles",
-            },
-            {
-                name: "Agregar rol",
-                icon: Plus,
-                path: "/administration/roles/add",
-            },
-            {
-                name: "Ver rol",
-                icon: Eye,
-                path: "/administration/roles",
-            },
-            {
-                name: "Eliminar rol",
-                icon: Trash2,
-                path: "/administration/roles",
-            },
-        ]
-    },
-]
+export default async function AdministrationPage() {
 
-export default function AdministrationPage() {
+  const menus = await prisma.menus.findMany({
+    where: {
+      idFather: 2,
+      AND: {
+        menu: false
+      }
+    },
+    include: {
+      children: true
+    }
+ })
+
   return (
     <>
         <Title>Administración</Title>
@@ -67,7 +23,7 @@ export default function AdministrationPage() {
         <div className='flex flex-wrap justify-center gap-6 p-5'>
             {
                 menus.map((menu) => (
-                    <CardContextMenu key={menu.path} {...menu} />
+                    <CardContextMenu key={menu.url} {...menu} />
                 ))
             }
         </div>
