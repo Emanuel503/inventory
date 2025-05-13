@@ -36,3 +36,18 @@ model Users {
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
 }
+
+model Menus {
+  id          Int      @id @default(autoincrement())
+  title       String
+  url         String
+  icon        String
+  isActive    Boolean
+  description String
+  idFather    Int?
+  menu        Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  father      Menus?   @relation("MenuToSubMenu", fields: [idFather], references: [id])
+  children    Menus[]  @relation("MenuToSubMenu")
+}
