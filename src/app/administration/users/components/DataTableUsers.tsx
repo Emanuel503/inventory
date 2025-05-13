@@ -33,7 +33,7 @@ export default function DataTableUsers<TData, TValue>({ columns, data, buttonAdd
     return (
       <>
 
-        <div className="flex justify-between pb-4">
+        <div className="flex justify-between py-4">
             <Input
               placeholder="Buscar..."
               value={table.getState().globalFilter ?? ""}
