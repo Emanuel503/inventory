@@ -20,6 +20,7 @@ model Roles {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   users       Users[]
+  access      Access[]
 }
 
 model Users {
@@ -50,4 +51,16 @@ model Menus {
   updatedAt   DateTime @updatedAt
   father      Menus?   @relation("MenuToSubMenu", fields: [idFather], references: [id])
   children    Menus[]  @relation("MenuToSubMenu")
+  access      Access[]
+}
+
+model Access {
+  id          Int @id @default(autoincrement())
+  idMenu      Int
+  idRol       Int
+  role        Roles       @relation(fields: [idRol], references: [id])
+  menu        Menus       @relation(fields: [idMenu], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@unique([idMenu, idRol])
 }
