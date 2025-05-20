@@ -37,18 +37,30 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## TODO
 
-- CRUD de roles ✅ (Solo se podra ver el detalle de los roles)
-- CRUD de usuarios ✅
-- Terminar login
+- Gestion de roles ✅
+- Gestion de usuarios ✅
+- Gestion de menus ✅
+- Gestion de menus a roles
 - Validacion de rutas por rol
+- Terminar login
 - Perfil de usuario
     - Edicion de usuario: nombre, apellidos, contraseña, foto
     - Gestion de sesiones
-    - Configuracion de doble autenticacion
-- CRUD de productos
-    - CRUD de categorias
-    - CRUD de proveedores
+    - Configuracion de doble factor de autenticacion
 
+- Modulo de inventario
+    - Gestion de categorias
+    - Gestion de proveedores
+    - Gestion de categorias
+    - Gestion de inventario de productos 
+    - Reportes de productos
+    
+- Modulo de gestion de restaurante 
+    - Crear, modificar, detalles y eliminar mesas
+    - Asignar mesas a clientes
+    - Toma de orden a clientes
+    - Generar factura
+    - Reporte de ventas por rango de fechas
 
 ## Comandos
 
