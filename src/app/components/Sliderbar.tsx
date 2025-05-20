@@ -7,15 +7,19 @@ import { MenusChildren } from "../types";
 
 export default async function Sliderbar({
     children,
-    menus
+    menus,
+    appName,
+    companyName
   }: Readonly<{
     children: React.ReactNode;
-    menus: MenusChildren[]
+    menus: MenusChildren[];
+    appName: string;
+    companyName: string;
   }>) {
 
     return (
         <SidebarProvider>
-            <AppSidebar menu={menus}/>
+            <AppSidebar menu={menus} appName={appName} companyName={companyName}/>
             <SidebarInset>
                 <NavegationMenuNav/>
                 <div className="flex flex-1 flex-col p-4 pt-0">

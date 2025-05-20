@@ -14,13 +14,15 @@ const user : UserSession = {
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   menu: MenusChildren[];
+  appName: string;
+  companyName: string;
 }
 
-export function AppSidebar({ menu, ...props }: AppSidebarProps) {
+export function AppSidebar({ menu, appName, companyName, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <Team/>
+        <Team appName={appName} companyName={companyName}/>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={menu} />

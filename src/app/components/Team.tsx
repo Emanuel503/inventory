@@ -2,7 +2,7 @@
 
 import { SidebarMenu, SidebarMenuItem, SidebarTrigger } from "@/components/ui/sidebar"
 
-export function Team() {
+export function Team({appName, companyName}: {appName: string, companyName: string}) {
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -11,8 +11,8 @@ export function Team() {
                         <SidebarTrigger className="-ml-1 bg-sidebar-primary text-sidebar-primary-foreground " />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold"> Sistema de inventario </span>
-                        <span className="truncate text-xs">Empresarial</span>
+                        <span className="truncate font-semibold"> {appName} </span>
+                        <span className="truncate text-xs">{companyName}</span>
                     </div>
                 </div>
             </SidebarMenuItem>

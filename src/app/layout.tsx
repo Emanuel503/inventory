@@ -7,6 +7,10 @@ import Sliderbar from "./components/Sliderbar";
 import { Toaster } from "sonner";
 import { prisma } from "@/utils/prisma";
 
+const appName =  process.env.APP_NAME as string;
+const appDescription =  process.env.APP_DESCRIPTION as string;
+const companyName =  process.env.COMPANY_NAME as string;
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -18,8 +22,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Inventario",
-  description: "Sistema de inventario",
+  title: `${appName}`,
+  description: `${appDescription}`,
 };
 
 export default async function RootLayout({
@@ -53,7 +57,7 @@ export default async function RootLayout({
       >
         {
           session?.userId 
-          ? <Sliderbar menus={menus}>
+          ? <Sliderbar menus={menus} appName={appName} companyName={companyName}>
               {children} 
               <Toaster position="top-right" richColors />
             </Sliderbar>
