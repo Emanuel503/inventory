@@ -1,4 +1,4 @@
-import { Bolt, Eye, GaugeCircle, List, LockKeyhole, LucideAlignJustify, LucideIcon, Plus, Settings2, Trash2, UserCogIcon } from "lucide-react"
+import { Bolt, Eye, GaugeCircle, List, LockKeyhole, LucideAlignJustify, LucideAppWindow, LucideIcon, Plus, Settings2, Trash2, UserCogIcon } from "lucide-react"
 
 export const iconsMenu: { [key: string]: LucideIcon } = {
   GaugeCircle,
@@ -10,5 +10,6 @@ export const iconsMenu: { [key: string]: LucideIcon } = {
   Plus, 
   Trash2, 
   UserCogIcon,
-  LucideAlignJustify 
+  LucideAlignJustify,
+  LucideAppWindow 
 };
