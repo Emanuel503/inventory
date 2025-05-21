@@ -3,12 +3,8 @@
 import { emailSchema, passwordSchema } from "../validations/zod";
 import { createSession, deleteSession } from "./session";
 import { redirect } from "next/navigation";
-
-const testUser = {
-  id: "1",
-  email: "emanueljosemolina@gmail.com",
-  password: "12345678",
-};
+import { prisma } from '@/utils/prisma'
+import bcrypt from "bcrypt";
 
 const loginSchema = emailSchema.merge(passwordSchema);
 
@@ -23,18 +19,51 @@ export async function login(prevState: unknown, formData: FormData) {
 
   const { email, password } = result.data;
 
-  //TODO: Validar el usuario con la base de datos
-  if (email !== testUser.email || password !== testUser.password) {
+  const user = await prisma.users.findUnique({
+    where: {
+      email: email
+    }
+  })
+
+  if(!user){
+    return {
+      errors: {
+        email: ["El correo ingresado no existe"],
+      },
+    };
+  }
+    
+  const hashedPassword = await bcrypt.compare(password, user.password);
+
+  if(hashedPassword){
+    const menus = await prisma.access.findMany({
+        include: {
+          menu:{
+            select:{
+              url: true
+            }
+          }
+        },
+        where: {
+          idRol: user?.id
+        }
+    })
+    
+    const access = menus.map((menu) => menu.menu.url);
+  
+    await createSession(String(user.id), access);
+
+    //TODO: Guardar la sesion: Dispositivo, hora, ip, localizacion, etc.
+    //TODO: Verificar si tiene configurado el envio de correos al iniciar sesion
+  
+    redirect("/dashboard");
+  }else{
     return {
       errors: {
         email: ["Correo o contraseña incorrectos"],
       },
     };
   }
-
-  await createSession(testUser.id);
-
-  redirect("/dashboard");
 }
 
 export async function logout() {

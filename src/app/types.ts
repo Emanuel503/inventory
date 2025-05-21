@@ -16,3 +16,9 @@ export interface DataTableProps<TData, TValue> {
 export interface MenusChildren extends Menus {
     children: Menus[];
 }
+
+export type SessionPayload = {
+  userId: string;
+  expiresAt: Date;
+  access: string[]
+};
