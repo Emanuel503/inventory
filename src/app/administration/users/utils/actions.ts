@@ -61,7 +61,7 @@ export async function saveUserAction(prevState: unknown, formData: FormData) {
     }
 
     const role = await prisma.roles.findFirst({
-        where: { name: validations.data.idRol },
+        where: { id: Number(validations.data.idRol) },
     });
 
     if(!role){
@@ -244,7 +244,7 @@ export async function editUserAction(prevState: unknown, formData: FormData) {
 
 
     const role = await prisma.roles.findFirst({
-        where: { name: validations.data.idRol },
+        where: { id: Number(validations.data.idRol) },
     });
 
     

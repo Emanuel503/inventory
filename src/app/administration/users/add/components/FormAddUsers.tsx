@@ -108,31 +108,26 @@ export default function FormAddUsers({roles} : {roles: Roles[]}) {
                                 aria-expanded={open}
                                 className=" lg:w-96 justify-between"
                               >
-                                {value ? roles.find((rol) => rol.name === value)?.name : "Selecciona un Rol"}
+                                {value ? roles.find((rol) => String(rol.id) === value)?.name : "Selecciona un Rol"}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className="lg:w-96 p-0">
-                              {/* @ts-expect-error */}
                               <Command>
                                 <CommandInput />
-                                {/* @ts-expect-error */}
                                 <CommandList>
-                                  {/* @ts-expect-error */}
                                   <CommandEmpty>No se han encontrado roles.</CommandEmpty>
-                                  {/* @ts-expect-error */}
                                   <CommandGroup>
                                     {roles.map((rol) => (
-                                      // @ts-expect-error
                                       <CommandItem
                                         key={rol.id}
-                                        value={rol.id}
+                                        value={String(rol.id)}
                                         onSelect={(currentValue: string) => {                                          
                                           setValue(currentValue === value ? "" : currentValue)
                                           setOpen(false)
                                         }}
                                       >
-                                        <Check className={cn( "mr-2 h-4 w-4", value === rol.name ? "opacity-100" : "opacity-0" )} />
+                                        <Check className={cn( "mr-2 h-4 w-4", value === String(rol.id) ? "opacity-100" : "opacity-0" )} />
                                         {rol.name}
                                       </CommandItem>
                                     ))}

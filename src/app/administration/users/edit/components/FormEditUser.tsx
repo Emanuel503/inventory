@@ -20,22 +20,17 @@ import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
 
 interface PropsFormEditUser{
-  user: Users & {
-    role:{
-      name: string
-    }
-  }
+  user: Users
   roles: Roles[]
 }
 
 export default function FormEditUser(props: PropsFormEditUser) {
-
     const {user, roles} = props
     const [state, formAction, pending] = useActionState(editUserAction, { success: false, message: "", errors: undefined });
     const router = useRouter();
 
     const [open, setOpen] = useState(false)
-    const [value, setValue] = useState(user.role.name)
+    const [value, setValue] = useState(String(user.idRol))    
     
     useEffect(() => {
       if (state.success) {
@@ -61,7 +56,7 @@ export default function FormEditUser(props: PropsFormEditUser) {
                 <div className="grid w-full items-center gap-4">
                     <input name='id' defaultValue={user.id} hidden/>
 
-                    <div className="flex flex-col space-y-1.5">
+                  <div className="flex flex-col space-y-1.5">
                     <Label>
                       Nombre
                       <RequiredField/>
@@ -112,7 +107,7 @@ export default function FormEditUser(props: PropsFormEditUser) {
                               <RequiredField/>
                           </Label>
                           
-                          <input name="idRol" defaultValue={value} hidden/>
+                          <input name="idRol" readOnly value={value} hidden/>
 
                           <Popover open={open} onOpenChange={setOpen}>
                             <PopoverTrigger asChild>
@@ -122,31 +117,26 @@ export default function FormEditUser(props: PropsFormEditUser) {
                                 aria-expanded={open}
                                 className=" lg:w-96 justify-between"
                               >
-                                {value ? roles.find((rol) => rol.name === value)?.name : "Selecciona un Rol"}
+                                {value ? roles.find((rol) => String(rol.id) === value)?.name : "Selecciona un Rol"}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className="lg:w-96 p-0">
-                              {/* @ts-expect-error */}
                               <Command>
                                 <CommandInput />
-                                {/* @ts-expect-error */}
                                 <CommandList>
-                                  {/* @ts-expect-error */}
                                   <CommandEmpty>No se han encontrado roles.</CommandEmpty>
-                                  {/* @ts-expect-error */}
                                   <CommandGroup>
                                     {roles.map((rol) => (
-                                      // @ts-expect-error
                                       <CommandItem
                                         key={rol.id}
-                                        value={rol.id}
+                                        value={String(rol.id)}
                                         onSelect={(currentValue: string) => {                                          
                                           setValue(currentValue === value ? "" : currentValue)
                                           setOpen(false)
                                         }}
                                       >
-                                        <Check className={cn( "mr-2 h-4 w-4", value === rol.name ? "opacity-100" : "opacity-0" )} />
+                                        <Check className={cn( "mr-2 h-4 w-4", value === String(rol.id) ? "opacity-100" : "opacity-0" )} />
                                         {rol.name}
                                       </CommandItem>
                                     ))}
