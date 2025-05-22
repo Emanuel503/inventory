@@ -36,6 +36,7 @@ model Users {
   password          String
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
+  sessions          Sessions[]
 }
 
 model Menus {
@@ -63,4 +64,17 @@ model Access {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   @@unique([idMenu, idRol])
+}
+
+model Sessions {
+  id          Int       @id @default(autoincrement())
+  idUser      Int
+  ipAddress   String
+  userAgent   String
+  device      String?
+  token       String    @unique
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  user        Users     @relation(fields: [idUser], references: [id])
 }
