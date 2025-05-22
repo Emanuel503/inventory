@@ -4,22 +4,25 @@ import NavBreadcrumb from "./NavBreadcrumb";
 import NavegationMenuNav from "./NavigationMenuNav";
 import { Card, CardContent} from "@/components/ui/card";
 import { MenusChildren } from "../types";
+import { Users } from "@prisma/client";
 
 export default async function Sliderbar({
     children,
     menus,
     appName,
-    companyName
+    companyName,
+    user
   }: Readonly<{
     children: React.ReactNode;
     menus: MenusChildren[];
     appName: string;
     companyName: string;
+    user: Users
   }>) {
 
     return (
         <SidebarProvider>
-            <AppSidebar menu={menus} appName={appName} companyName={companyName}/>
+            <AppSidebar menu={menus} appName={appName} companyName={companyName} user={user}/>
             <SidebarInset>
                 <NavegationMenuNav/>
                 <div className="flex flex-1 flex-col p-4 pt-0">

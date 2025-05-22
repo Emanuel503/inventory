@@ -57,7 +57,7 @@ export default async function RootLayout({
       >
         {
           session?.user 
-          ? <Sliderbar menus={menus} appName={appName} companyName={companyName}>
+          ? <Sliderbar menus={menus} appName={appName} companyName={companyName} user={session.user}>
               {children} 
               <Toaster position="top-right" richColors />
             </Sliderbar>

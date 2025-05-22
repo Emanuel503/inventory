@@ -4,21 +4,17 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, } f
 import { Team } from "./Team"
 import { NavMain } from "./NavMain"
 import { NavUser } from "./NavUser"
-import { MenusChildren, UserSession } from "../types"
-
-const user : UserSession = {
-    name: "Emanuel Molina",
-    email: "emanueljosemolina@gmail.com",
-    avatar: "https://petsastherapy.org/images/uploads/cutouts/Cats_for_website_2.0_copy_.png",
-}
+import { MenusChildren } from "../types"
+import { Users } from "@prisma/client"
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   menu: MenusChildren[];
   appName: string;
   companyName: string;
+  user: Users
 }
 
-export function AppSidebar({ menu, appName, companyName, ...props }: AppSidebarProps) {
+export function AppSidebar({ menu, appName, companyName, user, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
