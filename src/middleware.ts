@@ -2,24 +2,42 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "./app/login/utils/session";
 
-const protectedRoutes = ["/dashboard"];
-const publicRoutes = ["/login"];
+export default async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname
+  const ignoredRoutes = ["/_next", "/favicon.ico", "/robots.txt", "/.well-known"];
 
-export default async function middleware(req: NextRequest) {
-  const path = req.nextUrl.pathname;
-  const isProtectedRoute = protectedRoutes.includes(path);
-  const isPublicRoute = publicRoutes.includes(path);
-
-  const cookie = (await cookies()).get("session")?.value;
-  
-  const session = cookie ? await decrypt(cookie) : null;
-
-  if (isProtectedRoute && !session?.userId) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
+  // Ignorar rutas internas del sistema
+  if (ignoredRoutes.some((route) => path.startsWith(route))) {
+    return NextResponse.next();
   }
 
-  if (isPublicRoute && session?.userId) {
-    return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+  const cookie = (await cookies()).get("session")?.value;
+  const session = cookie ? await decrypt(cookie) : null;
+  
+  const isAuthenticated = !!session?.user;
+  
+  // Si no esta autenticado
+  if (!isAuthenticated && path != '/login') {
+    request.nextUrl.pathname = "/login";
+    return NextResponse.redirect(request.nextUrl);
+  }
+
+  // Si es admin
+  if (isAuthenticated && session.user.idRol == 1) {
+    request.nextUrl.pathname = "/dashboard";
+    return NextResponse.next();
+  }
+  
+  // Si autenticado pero intenta acceder al login
+  if (isAuthenticated && path == '/login') {
+    request.nextUrl.pathname = "/dashboard";
+    return NextResponse.redirect(request.nextUrl);
+  }
+
+  // Si autenticado pero no tiene permiso a esa ruta
+  if (isAuthenticated && !session.access.includes(path)) {
+    request.nextUrl.pathname = "/dashboard";
+    return NextResponse.redirect(request.nextUrl);
   }
 
   return NextResponse.next();
