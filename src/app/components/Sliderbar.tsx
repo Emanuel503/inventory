@@ -21,7 +21,7 @@ export default async function Sliderbar({
   }>) {
 
     return (
-        <SidebarProvider>
+        <SidebarProvider defaultOpen={false}>
             <AppSidebar menu={menus} appName={appName} companyName={companyName} user={user}/>
             <SidebarInset>
                 <NavegationMenuNav/>
