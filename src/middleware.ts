@@ -35,7 +35,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   // Si autenticado pero no tiene permiso a esa ruta
-  if (isAuthenticated && !session.access.includes(path)) {
+  if (isAuthenticated && !session.access.some((allowedPath: string) => path.startsWith(allowedPath))) {
     request.nextUrl.pathname = "/dashboard";
     return NextResponse.redirect(request.nextUrl);
   }
