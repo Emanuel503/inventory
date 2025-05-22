@@ -15,10 +15,7 @@ export default async function SettingsPage() {
           }
         }
       }
-  })
-
-  console.log(menus);
-  
+  })  
 
   return (
     <>
