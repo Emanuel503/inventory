@@ -40,9 +40,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Gestion de roles ✅
 - Gestion de usuarios ✅
 - Gestion de menus ✅
-- Gestion de menus a roles
-- Validacion de rutas por rol
-- Terminar login
+- Gestion de menus a roles ✅
+- Validacion de rutas por rol ✅
+- Terminar login ✅
 - Perfil de usuario
     - Edicion de usuario: nombre, apellidos, contraseña, foto
     - Gestion de sesiones
