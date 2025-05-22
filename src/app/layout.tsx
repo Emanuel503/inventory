@@ -1,3 +1,5 @@
+'use only server'
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -32,23 +34,60 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  let menus = null;
   const cookie = (await cookies()).get("session")?.value;
   const session = cookie ? await decrypt(cookie): null;
 
-  const menus = await prisma.menus.findMany({
-    where: { 
-        menu: true,
-        AND:{
-            idFather: null, 
-        }
-    },
-    orderBy: {
-      id: "asc"
-    },
+  const access = await prisma.access.findMany({
     include: {
-      children: true
+      menu: {
+        select:{
+          menu: true
+        }
+      }
+    },
+    where:{
+      idRol: session?.user.idRol,
+      menu: {
+        idFather: null,
+      }
     }
- })
+  })
+
+  const idsMenus = access.map((menu) => (
+    menu.idMenu
+  ))
+
+  if(session?.user.idRol == 1){
+    menus = await prisma.menus.findMany({
+      where: { 
+          menu: true,
+          idFather: null,
+      },
+      orderBy: {
+        id: "asc"
+      },
+      include: {
+        children: true
+      }
+    })
+  }else{
+     menus = await prisma.menus.findMany({
+      where: { 
+          menu: true,
+          idFather: null,
+          id:{
+            in: idsMenus
+          } 
+      },
+      orderBy: {
+        id: "asc"
+      },
+      include: {
+        children: true
+      }
+    })
+  }  
 
   return (
     <html lang="es" suppressHydrationWarning>
