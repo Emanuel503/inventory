@@ -37,21 +37,21 @@ export async function login(prevState: unknown, formData: FormData) {
 
   if(hashedPassword){
     const menus = await prisma.access.findMany({
-        include: {
-          menu:{
-            select:{
-              url: true
-            }
+      include: {
+        menu:{
+          select:{
+            url: true
           }
-        },
-        where: {
-          idRol: user?.id
         }
+      },
+      where: {
+        idRol: user?.idRol
+      }
     })
     
     const access = menus.map((menu) => menu.menu.url);
   
-    await createSession(String(user.id), access);
+    await createSession(user, access);
 
     //TODO: Guardar la sesion: Dispositivo, hora, ip, localizacion, etc.
     //TODO: Verificar si tiene configurado el envio de correos al iniciar sesion

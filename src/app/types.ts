@@ -1,4 +1,4 @@
-import { Menus } from "@prisma/client"
+import { Menus, Users } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 
 export type UserSession = {
@@ -18,7 +18,7 @@ export interface MenusChildren extends Menus {
 }
 
 export type SessionPayload = {
-  userId: string;
+  user: Users;
   expiresAt: Date;
   access: string[]
 };

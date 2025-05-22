@@ -56,7 +56,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {
-          session?.userId 
+          session?.user 
           ? <Sliderbar menus={menus} appName={appName} companyName={companyName}>
               {children} 
               <Toaster position="top-right" richColors />
