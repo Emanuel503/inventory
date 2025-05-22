@@ -57,6 +57,9 @@ export async function saveAccessAction(prevState: unknown, formData: FormData) {
 
     const menu = await prisma.menus.findFirst({
         where: { id: Number(validations.data.idMenu) },
+        include: {
+            children: true
+        }
     });
 
     if(!menu){
@@ -78,6 +81,15 @@ export async function saveAccessAction(prevState: unknown, formData: FormData) {
             idRol: role.id
         },
     });
+
+    const submenus = menu.children.map((menu) => ({
+        idMenu: menu.id,
+        idRol: role.id,
+    }))
+
+    await prisma.access.createMany({
+        data: submenus,
+    })
 
     return { success: true, message: `Acceso creado correctamente` }; 
 }
@@ -115,6 +127,22 @@ export async function deleteAccessAction(prevState: unknown, formData: FormData)
         await prisma.access.delete({
             where: { id: Number(validations.data.id)}
         })
+
+        const submenus = await prisma.menus.findMany({
+            where: {
+                idFather: existingAccess.idMenu
+            }
+        })
+
+        const idsSubmenus = submenus.map((menu) => (menu.id))
+
+        await prisma.access.deleteMany({
+            where: {
+                idMenu: {
+                    in: idsSubmenus
+                }
+            }
+        })
     }catch(error: unknown){
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2003') {
@@ -131,79 +159,4 @@ export async function deleteAccessAction(prevState: unknown, formData: FormData)
     }
         
     return { success: true, message: `Acceso eliminado correctamente` }; 
-}
-
-export async function editAccessAction(prevState: unknown, formData: FormData) {
-
-    const data = Object.fromEntries(formData) as Record<string, string>;
-
-    //Validations
-    const createAccessSchema = idMenuSchema
-                                .merge(idRolSchema)
-                                .merge(idSchema);
-
-    const validations = createAccessSchema.safeParse(Object.fromEntries(formData))
-
-    if (!validations.success) {
-        return {
-            success: false,
-            message: "Completa todos los campos",
-            errors: validations.error.flatten().fieldErrors,
-        };
-    }
-
-    const existingAccess = await prisma.access.findFirst({
-        where: { 
-            idRol: Number(validations.data.idRol), 
-            idMenu: Number(validations.data.idMenu) },
-    });
-
-    if (existingAccess && existingAccess.id !== Number(validations.data.id)) {
-        return {
-            success: false,
-            message: `El acceso ya existe.`,
-            errors: null,
-            fields: data
-        };
-    }
-
-    const role = await prisma.roles.findFirst({
-        where: { id: Number(validations.data.idRol) },
-    });
-
-    
-    if(!role){
-        return {
-            success: false,
-            message: `El rol ingresado no existe`,
-            errors: null,
-            fields: data
-        };
-    }
-
-    const menu = await prisma.menus.findFirst({
-        where: { id: Number(validations.data.idMenu) },
-    });
-
-    if(!menu){
-        return {
-            success: false,
-            message: `El menu ingresado no existe`,
-            errors: {
-                idRol: ["El menu ingresado no existe"]
-            },
-            fields: data
-        };
-    }
-
-    //Update the model 
-    await prisma.access.update({
-        data: {
-            idMenu: menu.id,
-            idRol: role.id,
-        },
-        where: { id: Number(validations.data.id)}
-    });
-        
-    return { success: true, message: `Acceso modificado correctamente` }; 
 }

@@ -20,6 +20,11 @@ export default async function page() {
           name: true
         }
       }
+    },
+    where: {
+      menu:{
+        idFather: null
+      }
     }
   });
 

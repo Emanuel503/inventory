@@ -98,12 +98,6 @@ export const ColumnsDataTableAccess: ColumnDef<Access & { role?: { id: number, n
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="flex gap-x-3">
-                <Link href={`/administration/users/edit/${row.original.id}`}>
-                  <Pencil/>
-                  Editar
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="flex gap-x-3">
                 <DeleteModal key={row.original.id} access={row.original}/>
             </DropdownMenuItem>
           </DropdownMenuContent>
