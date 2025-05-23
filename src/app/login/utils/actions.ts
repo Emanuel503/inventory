@@ -53,9 +53,8 @@ export async function login(prevState: unknown, formData: FormData) {
   
     await createSession(user, access);
 
-    //TODO: Guardar la sesion: Dispositivo, hora, ip, localizacion, etc.
     //TODO: Verificar si tiene configurado el envio de correos al iniciar sesion
-  
+    
     redirect("/dashboard");
   }else{
     return {
