@@ -51,7 +51,7 @@ export function NavUser({ user } : {user : Users}) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <Link href={`/account`}>
+              <Link href={`/account/profile`}>
                 <DropdownMenuItem>
                   <BadgeCheck />
                   Cuenta  
