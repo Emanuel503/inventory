@@ -29,6 +29,11 @@ export default async function SessionsPage() {
             <div key={session.id} className="border-b border-gray-200 py-4">
               <p className="text-sm font-medium">{session.device}</p>
               <p className="text-xs text-muted-foreground">{session.ipAddress}</p>
+              {
+                session.revokedAt 
+                ? <p className="text-xs text-muted-foreground">Fecha de cierre de sesion: {new Date(session.revokedAt).toLocaleString()}</p>
+                : <p className="text-xs text-muted-foreground">Fecha de inicio de sesion: {new Date(session.createdAt).toLocaleString()}</p>
+              }
               
             </div>
           ))
