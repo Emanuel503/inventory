@@ -22,7 +22,7 @@ export default function Accountlayout({ children }: AccountLayoutProps) {
      <div className="hidden space-y-6 p-5 pb-16 md:block">
         <div className="space-y-0.5">
           <Title>Cuenta</Title>
-          <p className='mb-5'>Maneja la configuración de tu cuenta y preferencias</p>
+          <p className='mb-5'>Maneja la configuración de tu cuenta, sesiones y preferencias</p>
         </div>
         <Separator className="my-6" />
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
