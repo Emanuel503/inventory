@@ -1,7 +1,12 @@
-import React from 'react'
+import { Title } from '@/components/ui/title'
+import FormEditProfile from '../components/FormEditProfile'
 
 export default function ProfilePage() {
   return (
-    <div>Profile</div>
+    <>
+      <Title>Perfil</Title>
+
+      <FormEditProfile/>
+    </>
   )
 }
