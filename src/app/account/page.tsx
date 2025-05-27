@@ -1,10 +1,5 @@
+import { redirect } from "next/navigation";
 
 export default function AccountPage() {
-  return (
-    <>
-      
-
-      
-    </>
-  )
+  return redirect("/account/profile");
 }
