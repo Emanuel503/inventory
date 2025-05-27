@@ -1,6 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Sessions } from "@prisma/client";
 import { UAParser } from "ua-parser-js";
+import { cookies } from "next/headers";
+import ModalCloseSession from "./ModalCloseSession";
 
 type CardSessionProps = {
   className?: string;
@@ -8,10 +9,11 @@ type CardSessionProps = {
   type: "active" | "expired" | "revoked";
 };
 
-export default function CardSession({session, className, type}: CardSessionProps) {
+export default async function CardSession({session, className, type}: CardSessionProps) {
 
   const uaParser = new UAParser();
   const userAgent = uaParser.setUA(session.userAgent).getResult();
+  const cookie = (await cookies()).get("session")?.value;
 
   return (
     <div className={`flex flex-col justify-center p-5 border rounded-xl shadow-lg ${className}`}>
@@ -32,7 +34,14 @@ export default function CardSession({session, className, type}: CardSessionProps
         }
 
         {
-          type == 'active' && <Button className="mt-5" variant="destructive">Cerrar sesion</Button>
+          type == 'active' && 
+            <div className="flex items-center justify-between mt-4">
+              <ModalCloseSession disabled={cookie == session.token} session={session}/>
+              {
+                cookie == session.token && 
+                <p className="text-green-700 font-semibold">Sesion actual</p>
+              }
+            </div>
         }
     </div>
   )
