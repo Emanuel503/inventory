@@ -14,7 +14,7 @@ export default function CardSession({session, className, type}: CardSessionProps
   const userAgent = uaParser.setUA(session.userAgent).getResult();
 
   return (
-    <div className={`flex flex-col justify-center p-5 border border- ${className}`}>
+    <div className={`flex flex-col justify-center p-5 border rounded-xl shadow-lg ${className}`}>
         <p className="text-muted-foreground"><span className="font-semibold">Direccion IP:</span> {session.ipAddress}</p>
         <p className="text-muted-foreground"><span className="font-semibold">Navegador:</span> {userAgent.browser.toString()} {userAgent.engine.toString()}</p>
         <p className="text-muted-foreground"><span className="font-semibold">Sistema:</span> {userAgent.os.toString()}</p>
