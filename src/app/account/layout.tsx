@@ -19,7 +19,7 @@ const sidebarNavItems = [
 
 export default function Accountlayout({ children }: AccountLayoutProps) {
   return (
-     <div className="space-y-6 p-5 pb-16">
+     <div>
         <div className="space-y-0.5">
           <Title>Cuenta</Title>
           <p className='mb-5'>Maneja la configuración de tu cuenta, sesiones y preferencias</p>
