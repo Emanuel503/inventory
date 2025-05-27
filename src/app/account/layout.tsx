@@ -19,7 +19,7 @@ const sidebarNavItems = [
 
 export default function Accountlayout({ children }: AccountLayoutProps) {
   return (
-     <div className="hidden space-y-6 p-5 pb-16 md:block">
+     <div className="space-y-6 p-5 pb-16">
         <div className="space-y-0.5">
           <Title>Cuenta</Title>
           <p className='mb-5'>Maneja la configuración de tu cuenta, sesiones y preferencias</p>
@@ -29,7 +29,7 @@ export default function Accountlayout({ children }: AccountLayoutProps) {
           <aside className="-mx-4 lg:w-1/5">
             <SidebarNav items={sidebarNavItems} />
           </aside>
-          <div className="flex-1 lg:max-w-2xl">{children}</div>
+          <div className="flex-1">{children}</div>
         </div>
       </div>
   )
