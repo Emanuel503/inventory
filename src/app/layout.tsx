@@ -50,6 +50,7 @@ export default async function RootLayout({
       idRol: session?.user.idRol,
       menu: {
         idFather: null,
+        showMenu: true
       }
     }
   })
@@ -63,6 +64,7 @@ export default async function RootLayout({
       where: { 
           menu: true,
           idFather: null,
+          showMenu: true
       },
       orderBy: {
         id: "asc"
