@@ -48,6 +48,7 @@ model Menus {
   description String
   idFather    Int?
   menu        Boolean
+  showMenu    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   father      Menus?   @relation("MenuToSubMenu", fields: [idFather], references: [id])
