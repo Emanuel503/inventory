@@ -26,19 +26,14 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(request.nextUrl);
   }
 
-  // Si es admin
-  if (isAuthenticated && session.user.idRol == 1) {
-    return NextResponse.next();
-  }
-  
   // Si autenticado pero intenta acceder al login
   if (isAuthenticated && path == '/login') {
     request.nextUrl.pathname = "/dashboard";
     return NextResponse.redirect(request.nextUrl);
   }
 
-  // Si autenticado pero no tiene permiso a esa ruta
-  if (isAuthenticated && !session.access.some((allowedPath: string) => path.startsWith(allowedPath))) {
+  // Si autenticado pero no tiene permiso a esa ruta y no es administrador
+  if (isAuthenticated && !session.access.some((allowedPath: string) => path.startsWith(allowedPath)) && session.user.idRol != 1) {
     request.nextUrl.pathname = "/dashboard";
     return NextResponse.redirect(request.nextUrl);
   }
