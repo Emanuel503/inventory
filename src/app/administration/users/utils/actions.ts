@@ -181,9 +181,15 @@ export async function deleteUserAction(prevState: unknown, formData: FormData){
     
     //Delete the model 
     try{
-        await prisma.users.delete({
-            where: { id: Number(validations.data.id)}
-        })
+        await prisma.$transaction(async () => {
+            await prisma.sessions.deleteMany({
+                where: { idUser: Number(validations.data.id)}
+            })
+
+            await prisma.users.delete({
+                where: { id: Number(validations.data.id)}
+            })
+        });
     }catch(error: unknown){
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2003') {
