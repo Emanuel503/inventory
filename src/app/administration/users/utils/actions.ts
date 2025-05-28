@@ -138,6 +138,15 @@ export async function desactiveUserAction(prevState: unknown, formData: FormData
         },
         where: { id: Number(validations.data.id)}
     })
+
+    await prisma.sessions.updateMany({
+        where: { 
+            idUser: Number(validations.data.id) 
+        },
+        data: { 
+            revokedAt: new Date() 
+        }
+    })
         
     return { success: true, message: `Usuario desactivado correctamente` }; 
 }
