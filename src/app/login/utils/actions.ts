@@ -36,6 +36,16 @@ export async function login(prevState: unknown, formData: FormData) {
   const hashedPassword = await bcrypt.compare(password, user.password);
 
   if(hashedPassword){
+
+    //Verifica si el usuario esta activo
+    if(!user.enabled){
+      return {
+        errors: {
+          email: ["El usuario no esta activo"],
+        },
+      };
+    }
+
     const menus = await prisma.access.findMany({
       include: {
         menu:{
