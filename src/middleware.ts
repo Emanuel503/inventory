@@ -1,10 +1,14 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "./app/login/utils/session";
+import { ResponseData } from "./app/types";
 
 export default async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
-  const ignoredRoutes = ["/_next", "/favicon.ico", "/robots.txt", "/.well-known"];
+  const ignoredRoutes = ["/_next", "/favicon.ico", "/robots.txt", "/.well-known", "/api/session"];
+
+  const AppUrl =  process.env.APP_URL as string;
+  const AppPort =  process.env.APP_PORT as string;
 
   // Ignorar rutas internas del sistema
   if (ignoredRoutes.some((route) => path.startsWith(route))) {
@@ -24,7 +28,6 @@ export default async function middleware(request: NextRequest) {
 
   // Si es admin
   if (isAuthenticated && session.user.idRol == 1) {
-    request.nextUrl.pathname = "/dashboard";
     return NextResponse.next();
   }
   
@@ -38,6 +41,24 @@ export default async function middleware(request: NextRequest) {
   if (isAuthenticated && !session.access.some((allowedPath: string) => path.startsWith(allowedPath))) {
     request.nextUrl.pathname = "/dashboard";
     return NextResponse.redirect(request.nextUrl);
+  }
+
+  //Validacion del token de sesion
+  if (isAuthenticated) {
+    const res = await fetch(`${AppUrl}:${AppPort}/api/session`, {
+      headers: {
+        Authorization: `Bearer ${cookie}`,
+      },
+      cache: 'no-store',
+    });
+
+    const data: ResponseData = await res.json();
+    if(!data.valid){
+
+      (await cookies()).delete("session");
+      request.nextUrl.pathname = "/login";
+      return NextResponse.redirect(request.nextUrl);
+    }
   }
 
   return NextResponse.next();

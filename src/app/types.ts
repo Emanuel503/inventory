@@ -22,3 +22,9 @@ export type SessionPayload = {
   expiresAt: Date;
   access: string[]
 };
+
+export interface ResponseData{
+  success: boolean;
+  message?: string;
+  valid?: boolean;
+}
