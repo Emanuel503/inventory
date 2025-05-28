@@ -1,16 +1,21 @@
 'use client'
 
-import { editUserAction } from '@/app/administration/users/utils/actions';
 import RequiredField from '@/app/components/RequiredField'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Users } from '@prisma/client';
 import { useActionState, useEffect } from 'react'
 import { toast } from 'sonner';
+import { editProfileAction } from '../utils/actions';
 
-export default function FormEditProfile() {
+interface FormEditProfileProps {
+  user: Users
+}
 
-  const [state, formAction, pending] = useActionState(editUserAction, { success: false, message: "", errors: undefined });
+export default function FormEditProfile({user}: FormEditProfileProps) {
+
+  const [state, formAction, pending] = useActionState(editProfileAction, { success: false, message: "", errors: undefined });
 
   useEffect(() => {
     if (state.success) {
@@ -30,14 +35,14 @@ export default function FormEditProfile() {
     <>
       <form action={formAction}>          
         <div className="grid w-full items-center gap-4">
-          <input name='id'hidden/>
+          <input name='id' hidden defaultValue={user.id}/>
 
           <div className="flex flex-col space-y-1.5">
               <Label>
                 Nombre
                 <RequiredField/>
               </Label>
-              <Input type="text" name='names' placeholder="Emanuel Jose"/>
+              <Input type="text" name='names' placeholder="Emanuel Jose" defaultValue={user.names}/>
               {state?.errors?.names && (
                 <div className="grid text-red-500">{state?.errors?.names}</div>
               )}
@@ -48,7 +53,7 @@ export default function FormEditProfile() {
               Apellidos 
               <RequiredField/>
             </Label>
-            <Input type="text" name='surnames' placeholder="Molina Zúniga" />
+            <Input type="text" name='surnames' placeholder="Molina Zúniga" defaultValue={user.surnames} />
             {state?.errors?.surnames && (
               <div className="grid text-red-500">{state.errors.surnames}</div>
             )}
@@ -62,9 +67,9 @@ export default function FormEditProfile() {
               <Label>
                 Contraseña 
               </Label>
-              <Input type="text" name='password' />
-              {state?.errors?.surnames && (
-                  <div className="grid text-red-500">{state.errors.surnames}</div>
+              <Input type="password" name='password' />
+              {state?.errors?.password && (
+                  <div className="grid text-red-500">{state.errors.password}</div>
               )}
           </div>
 
@@ -72,12 +77,11 @@ export default function FormEditProfile() {
             <Label>
               Confirmar contraseña 
             </Label>
-            <Input type="text" name='confirm_password'/>
-            {state?.errors?.surnames && (
-              <div className="grid text-red-500">{state.errors.surnames}</div>
+            <Input type="password" name='confirm_password'/>
+            {state?.errors?.confirm_password && (
+              <div className="grid text-red-500">{state.errors.confirm_password}</div>
             )}
           </div>
-
 
           <div className="flex justify-between mt-10">
             <Button disabled={pending}>Guardar cambios</Button>

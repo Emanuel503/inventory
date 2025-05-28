@@ -36,6 +36,50 @@ export const usernameSchema = z.object({
         .trim()
 });
 
+export const passwordSchema = z.object({
+  password: z
+    .string()
+    .trim()
+    .optional()
+    .superRefine((value, ctx) => {
+      if (value) {
+        if (value.length < 8) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.too_small,
+            type: 'string',
+            minimum: 8,
+            inclusive: true,
+            message: 'La contraseña debe contener al menos 8 caracteres.',
+          });
+        }
+
+        if (value.length > 20) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.too_big,
+            type: 'string',
+            maximum: 20,
+            inclusive: true,
+            message: 'La contraseña debe contener como máximo 20 caracteres.',
+          });
+        }
+
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])/.test(value)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.',
+          });
+        }
+      }
+    }),
+});
+
+export const confirmPasswordSchema = z.object({
+    confirm_password: z
+        .string()
+        .optional(),
+});
+
 export const idRolSchema = z.object({
     idRol: z
         .string()
