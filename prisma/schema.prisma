@@ -34,6 +34,7 @@ model Users {
   role              Roles       @relation(fields: [idRol], references: [id])
   enabled           Boolean     @default(true)
   password          String
+  image             String?
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   sessions          Sessions[]
