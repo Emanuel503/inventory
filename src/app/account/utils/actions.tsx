@@ -122,6 +122,10 @@ export async function editProfileAction(prevState: unknown, formData: FormData){
         })
     }
 
+    const file = formData.get('image') as File;
+    console.log(file);
+    
+
     //Save the model
     await prisma.users.update({
         data: {

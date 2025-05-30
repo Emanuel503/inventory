@@ -63,6 +63,8 @@ export default function FormEditProfile({user}: FormEditProfileProps) {
             Subir foto
           </div>
 
+          <input type="file" name="image" accept="image/*" />
+
           <div className="flex flex-col space-y-1.5">
               <Label>
                 Contraseña 
