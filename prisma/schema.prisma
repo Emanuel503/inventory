@@ -38,6 +38,7 @@ model Users {
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   sessions          Sessions[]
+  notificationsConfigure    NotificationsConfigure?
 }
 
 model Menus {
@@ -79,4 +80,15 @@ model Sessions {
   revokedAt   DateTime?
   createdAt   DateTime  @default(now())
   user        Users     @relation(fields: [idUser], references: [id])
+}
+
+model NotificationsConfigure {
+  id              Int       @id @default(autoincrement())
+  idUser          Int       @unique
+  user            Users     @relation(fields: [idUser], references: [id])
+  emailSessions   Boolean   @default(true)
+  passwordChange  Boolean   @default(true)
+  updatesSystem   Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
