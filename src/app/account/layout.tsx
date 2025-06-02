@@ -14,6 +14,10 @@ const sidebarNavItems = [
   {
     title: "Sesiones",
     href: "/account/sessions",
+  },
+  {
+    title: "Notificaciones",
+    href: "/account/notifications",
   }
 ]
 
