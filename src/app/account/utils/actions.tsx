@@ -2,10 +2,13 @@
 
 import { prisma } from "@/utils/prisma";
 import { idSchema } from "./validations";
-import { confirmPasswordSchema, namesSchema, passwordSchema, surnamesSchema } from "@/app/administration/users/utils/validations";
+import { confirmPasswordSchema, imageSchema, namesSchema, passwordSchema, surnamesSchema } from "@/app/administration/users/utils/validations";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { decrypt, encrypt } from "@/app/login/utils/session";
+import fs from 'fs/promises';
+import path from 'path';
+import { revalidatePath } from 'next/cache';
 
 export async function closeSessionAction(prevState: unknown, formData: FormData) {
     const data = Object.fromEntries(formData) as Record<string, string>;
@@ -44,7 +47,8 @@ export async function editProfileAction(prevState: unknown, formData: FormData){
                                     .merge(namesSchema)
                                     .merge(surnamesSchema)
                                     .merge(passwordSchema)
-                                    .merge(confirmPasswordSchema);
+                                    .merge(confirmPasswordSchema)
+                                    .merge(imageSchema);
 
     const validations = createProfileSchema.safeParse(Object.fromEntries(formData))
 
@@ -70,6 +74,40 @@ export async function editProfileAction(prevState: unknown, formData: FormData){
             errors: { id: ["Usuario no encontrado"] },
             fields: data
         };
+    }
+
+    const file = formData.get('image') as File;
+    let filepath = '';
+    let filename = '';
+
+    if (file.size > 0) {
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        
+        const MAX_SIZE = 2 * 1024 * 1024;
+        if (file.size > MAX_SIZE) {
+            return {
+                success: false,
+                message: "El archivo supera el tamaño máximo de 2 MB",
+                errors: { image: ["El archivo supera el tamaño máximo de 2 MB"] },
+                fields: data
+            };
+        }
+
+        if(user.image){
+            const oldImagePath = path.join(process.cwd(), 'public/uploads/profile', user.image);
+            await fs.unlink(oldImagePath);
+        }
+
+        const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'profile');
+        await fs.mkdir(uploadPath, { recursive: true });
+    
+        filename = `${Date.now()}-${file.name}`;
+        filepath = path.join(uploadPath, filename);
+    
+        await fs.writeFile(filepath, buffer);
+    
+        revalidatePath('/upload-image');
     }
 
     //Valida que las contraseñas coincidan
@@ -102,7 +140,8 @@ export async function editProfileAction(prevState: unknown, formData: FormData){
                 ...session.user,
                 surnames: validations.data.surnames,
                 names: validations.data.names,
-                password: hashedPassword
+                password: hashedPassword,
+                image: filename ? filename : user.image
             }
         });
 
@@ -122,16 +161,13 @@ export async function editProfileAction(prevState: unknown, formData: FormData){
         })
     }
 
-    const file = formData.get('image') as File;
-    console.log(file);
-    
-
     //Save the model
     await prisma.users.update({
         data: {
             surnames: validations.data.surnames,
             names: validations.data.names,
-            password: hashedPassword
+            password: hashedPassword, 
+            image:filename ? filename : user.image
         },
         where: {
             id: Number(validations.data.id)

@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Users } from '@prisma/client';
-import { useActionState, useEffect } from 'react'
+import { useActionState, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner';
 import { editProfileAction } from '../utils/actions';
+import Image from 'next/image';
 
 interface FormEditProfileProps {
   user: Users
@@ -16,6 +17,8 @@ interface FormEditProfileProps {
 export default function FormEditProfile({user}: FormEditProfileProps) {
 
   const [state, formAction, pending] = useActionState(editProfileAction, { success: false, message: "", errors: undefined });
+  const uploadImageInput = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (state.success) {
@@ -30,6 +33,18 @@ export default function FormEditProfile({user}: FormEditProfileProps) {
       });
     }
   }, [state]);
+  
+  const handleClick = () => {
+    uploadImageInput.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setPreview(previewUrl);
+    }
+  };
   
   return (
     <>
@@ -58,12 +73,35 @@ export default function FormEditProfile({user}: FormEditProfileProps) {
               <div className="grid text-red-500">{state.errors.surnames}</div>
             )}
           </div>
+          
+          <div className="flex flex-col gap-3 space-y-1.5">
 
-          <div className='bg-gray-300 opacity-50 w-40 h-52 hover:opacity-90 flex items-center justify-center'>
-            Subir foto
+            <div className={`w-48 h-64 max-w-48 flex items-center justify-center ${!user.image && !preview ? 'bg-gray-300' : ''}`}>
+              {preview && (
+                <Image width={150} height={150} src={preview} alt="Vista previa"/>
+              )}
+
+              {
+                (user.image && !preview) &&
+                  <Image width={150} height={150} src={`/uploads/profile/${user.image}`} alt='Imagen de perfil'/>
+              }
+
+              {
+                (!user.image && !preview) &&
+                  <p className=' text-muted-foreground '>Sin imagen</p>
+              }
+            </div>
+
+            <Button className='max-w-56 w-56' onClick={handleClick}  type='button' variant='secondary'>
+                Cambiar imagen
+            </Button>
+
+            <input onChange={handleFileChange} ref={uploadImageInput} type="file" name="image" id='image' accept="image/*" hidden />
+
+            {state?.errors?.image && (
+              <div className="grid text-red-500">{state.errors.image}</div>
+            )}
           </div>
-
-          <input type="file" name="image" accept="image/*" />
 
           <div className="flex flex-col space-y-1.5">
               <Label>

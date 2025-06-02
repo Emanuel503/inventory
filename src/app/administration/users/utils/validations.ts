@@ -99,3 +99,9 @@ export const idSchema = z.object({
         .trim()
         .min(1, " El id es requerido")
 });
+
+export const imageSchema = z.object({
+    image: z
+        .any()
+        .optional()
+});
