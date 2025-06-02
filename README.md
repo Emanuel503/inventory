@@ -48,7 +48,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
     - Validar correo la primera vez que se inicie sesion
     - Terminar estilos de correo de creacion de usuario
 - Perfil de usuario
-    - Edicion de usuario: nombre, apellidos, contraseña, foto
+    - Edicion de usuario: nombre, apellidos, contraseña, foto ✅
     - Gestion de sesiones ✅
     - Configuracion de correo electronico
         -Inicio de sesiones
