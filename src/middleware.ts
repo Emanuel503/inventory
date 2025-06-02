@@ -5,7 +5,7 @@ import { ResponseData } from "./app/types";
 
 export default async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
-  const ignoredRoutes = ["/_next", "/favicon.ico", "/robots.txt", "/.well-known", "/api/session"];
+  const ignoredRoutes = ["/_next", "/favicon.ico", "/robots.txt", "/.well-known", "/api/session", "/public/uploads/"];
 
   const AppUrl =  process.env.APP_URL as string;
   const AppPort =  process.env.APP_PORT as string;
