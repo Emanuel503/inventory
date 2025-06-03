@@ -26,7 +26,7 @@ export default async function CardSession({session, className, type}: CardSessio
         <p className="text-muted-foreground"><span className="font-semibold">Fecha de inicio de sesion:</span> {new Date(session.createdAt).toLocaleString()}</p>
 
         {
-          type == 'active' || type == 'expired' && <p className="text-muted-foreground"><span className="font-semibold">Fecha de expiración:</span> {new Date(session.expiresAt).toLocaleString()}</p>
+          (type == 'active' || type == 'expired') && <p className="text-muted-foreground"><span className="font-semibold">Fecha de expiración:</span> {new Date(session.expiresAt).toLocaleString()}</p>
         }
 
         {
