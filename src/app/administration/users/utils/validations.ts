@@ -105,3 +105,10 @@ export const imageSchema = z.object({
         .any()
         .optional()
 });
+
+export const idUserSchema = z.object({
+    idUser: z
+        .string()
+        .trim()
+        .min(1, " El id del usuario es requerido")
+});

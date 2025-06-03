@@ -2,7 +2,7 @@
 
 import { prisma } from "@/utils/prisma";
 import { idSchema } from "./validations";
-import { confirmPasswordSchema, imageSchema, namesSchema, passwordSchema, surnamesSchema } from "@/app/administration/users/utils/validations";
+import { confirmPasswordSchema, idUserSchema, imageSchema, namesSchema, passwordSchema, surnamesSchema } from "@/app/administration/users/utils/validations";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { decrypt, encrypt } from "@/app/login/utils/session";
@@ -175,4 +175,51 @@ export async function editProfileAction(prevState: unknown, formData: FormData){
     })
 
     return { success: true, message: `Perfil modificado correctamente` }; 
+}
+
+export async function editNotificationsConfigAction(prevState: unknown, formData: FormData) {
+    const data = Object.fromEntries(formData) as Record<string, string>;
+
+    //Validations
+    const createProfileSchema = idUserSchema;
+
+    const validations = createProfileSchema.safeParse(Object.fromEntries(formData))
+
+    if (!validations.success) {
+        return {
+            success: false,
+            message: "Completa todos los campos",
+            errors: validations.error.flatten().fieldErrors,
+            fields: data
+        };
+    }
+
+    const notificationsConfigure = await prisma.notificationsConfigure.findUnique({
+        where: {
+            idUser: Number(validations.data.idUser)
+        }
+    });
+
+    const dataObjet = {
+        idUser: Number(validations.data.idUser),
+        emailSessions: formData.get('emailSessions') === 'on',
+        passwordChange: formData.get('passwordChange') === 'on',
+        updatesSystem: formData.get('updatesSystem') === 'on'
+    }
+
+    //Save the model
+    if (!notificationsConfigure) {
+        await prisma.notificationsConfigure.create({
+            data: dataObjet
+        });
+    }else{
+        await prisma.notificationsConfigure.update({
+            data: dataObjet,
+            where: {
+                idUser: Number(validations.data.idUser)
+            }
+        });
+    }
+
+    return { success: true, message: `Preferencias de notificaciones modificado correctamente` }; 
 }
