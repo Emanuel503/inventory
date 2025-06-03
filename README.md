@@ -42,16 +42,18 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Gestion de menus ✅
 - Gestion de menus a roles ✅
 - Validacion de rutas por rol ✅
-- Terminar login ✅
+- Login ✅
     - Validar token de session ✅
     - Enviar correo cuando se incie sesion (Si esta configurado)
-    - Validar correo la primera vez que se inicie sesion
     - Terminar estilos de correo de creacion de usuario
+    - Confirmar correo electronico la primera vez que inicie sesion
 - Perfil de usuario
     - Edicion de usuario: nombre, apellidos, contraseña, foto ✅
     - Gestion de sesiones ✅
-    - Configuracion de correo electronico
-        -Inicio de sesiones
+    - Gestion de preferencias de correos electronicos
+        - Cambios de contraseña
+        - Actualizaciones del sistema
+        - Inicio de sesiones
     - Configuracion de doble factor de autenticacion
 
 - Modulo de inventario
