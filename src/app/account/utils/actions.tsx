@@ -9,6 +9,8 @@ import { decrypt, encrypt } from "@/app/login/utils/session";
 import fs from 'fs/promises';
 import path from 'path';
 import { revalidatePath } from 'next/cache';
+import { sendEmail } from "@/utils/serverFunctions";
+import { buildPasswordChangedEmail } from "@/emails/buildEmails";
 
 export async function closeSessionAction(prevState: unknown, formData: FormData) {
     const data = Object.fromEntries(formData) as Record<string, string>;
@@ -62,6 +64,13 @@ export async function editProfileAction(prevState: unknown, formData: FormData){
     }
 
     const user = await prisma.users.findUnique({
+        include: {
+            notificationsConfigure: {
+                select:{
+                    passwordChange: true,
+                }
+            }
+        },
         where: {
             id: Number(validations.data.id)
         }
@@ -123,6 +132,22 @@ export async function editProfileAction(prevState: unknown, formData: FormData){
     let hashedPassword = null;
     if(validations.data.password){
         hashedPassword = await bcrypt.hash(validations.data.password, 10);
+
+        //Envio de correo de notificación
+        if(user.notificationsConfigure?.passwordChange || user.notificationsConfigure === null){
+            const to = [{
+                name: `${user.names} ${user.surnames}`,
+                email: user.email
+            }];
+
+            const { subject, htmlContent } = buildPasswordChangedEmail({...user});
+        
+            try{
+                await sendEmail(subject, htmlContent, to)
+            }catch(error){
+                console.error(JSON.stringify(error))
+            }
+        }
     }else{
         hashedPassword = user.password;
     }
