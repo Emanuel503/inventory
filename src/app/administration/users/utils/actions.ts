@@ -187,6 +187,10 @@ export async function deleteUserAction(prevState: unknown, formData: FormData){
                 where: { idUser: Number(validations.data.id)}
             })
 
+            await prisma.notificationsConfigure.deleteMany({
+                where: { idUser: Number(validations.data.id)}
+            })
+
             await prisma.users.delete({
                 where: { id: Number(validations.data.id)}
             })
