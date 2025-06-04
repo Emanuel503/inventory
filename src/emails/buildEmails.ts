@@ -1,4 +1,4 @@
-import { PasswordChangedEmailParams } from "./typesEmails";
+import { CreatedUserEmailParams, PasswordChangedEmailParams } from "./typesEmails";
 
 function buildEmailTemplate(html: string){
   return `
@@ -17,6 +17,22 @@ function buildEmailTemplate(html: string){
           margin: auto;
           background-color: #fafaf9;
           font-size: 16px
+        }
+
+        .btn{
+          text-align: center;
+          margin: auto;
+          background: black;
+          color: white;
+          padding: 8px 14px;
+          border-radius: 5px;
+          text-decoration: none;
+          display: block;
+          max-width: 100px;
+        }
+
+        .btn:hover{
+          opacity: 60%;
         }
 
         .title{
@@ -47,6 +63,27 @@ export function buildPasswordChangedEmail({ username, names, surnames, email }: 
 
                     <p style="margin-top:50px;">Si no realizaste este cambio, por favor contacta con soporte inmediatamente.</p>
                   </div>`;
+
+  const htmlContent = buildEmailTemplate(html)
+
+  return { subject, htmlContent };
+}
+
+export function buildCreatedUserEmail({username, names, surnames, email, password}: CreatedUserEmailParams){
+  const subject = `${process.env.APP_NAME} Creación de usuario`;
+  const html  = `<div>
+                    <h2>Creación de usuario</h2>
+                    
+                    <p><strong>Usuario:</strong> ${username}</p>
+                    <p><strong>Nombre:</strong> ${names} ${surnames}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Contraseña:</strong> ${password}</p>
+
+                    <a class="btn" style="margin: 10px auto color: white;" href="${process.env.APP_URL}:${process.env.APP_PORT}">Inciar sesion</a>
+
+                    <p style="margin-top:50px;">Esta es una contraseña temporal, debes cambiarla al iniciar sesion.</p>
+                  </div>
+                `;
 
   const htmlContent = buildEmailTemplate(html)
 

@@ -6,6 +6,7 @@ import { Prisma } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { generateSecurePassword } from "@/utils/functions";
 import { sendEmail } from "@/utils/serverFunctions";
+import { buildCreatedUserEmail } from "@/emails/buildEmails";
 
 export async function saveUserAction(prevState: unknown, formData: FormData) {
     
@@ -79,7 +80,7 @@ export async function saveUserAction(prevState: unknown, formData: FormData) {
     const hashedPassword = await bcrypt.hash(generatedPassword, 10);
 
     //Save the model 
-    await prisma.users.create({
+    const user = await prisma.users.create({
         data: {
             ...validations.data,
             idRol: role.id,
@@ -90,12 +91,12 @@ export async function saveUserAction(prevState: unknown, formData: FormData) {
 
 
     //Send Email
-    const subject = `Creación de usuario ${process.env.APP_NAME}`
-    const htmlContent = `<div>${generatedPassword}</div>`
     const to = [{
         name: `${validations.data.names} ${validations.data.surnames}`,
         email: validations.data.email
     }];
+
+    const { subject, htmlContent } = buildCreatedUserEmail({...user, password: generatedPassword});
 
     try{
         await sendEmail(subject, htmlContent, to)
