@@ -5,7 +5,7 @@ import { House } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
-import { capitalizeFirstLetter, translate } from "@/utils/functions";
+import { translate } from "@/utils/functions";
 
 export default function NavBreadcrumb() {
     const path = usePathname();
@@ -27,7 +27,7 @@ export default function NavBreadcrumb() {
                             <Fragment key={index}>
                                 <BreadcrumbItem >
                                     <BreadcrumbPage>
-                                        <Link href={url}>{capitalizeFirstLetter(translate(item))}</Link>
+                                        <Link href={url}>{translate(item)}</Link>
                                     </BreadcrumbPage>
                                 </BreadcrumbItem>
                                 { index < breadcrumbList.length - 1 && <BreadcrumbSeparator/> }
