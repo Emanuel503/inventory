@@ -108,7 +108,7 @@ export default function FormAddAccess({roles, menus} : {roles: Roles[], menus: M
                               <Button
                                 variant="outline"
                                 role="combobox"
-                                aria-expanded={open}
+                                aria-expanded={openMenu}
                                 className=" lg:w-96 justify-between"
                               >
                                 {valueMenu ? menus.find((menu) => String(menu.id) === valueMenu)?.title : "Selecciona un Menu"}
