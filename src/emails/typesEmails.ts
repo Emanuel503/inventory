@@ -12,3 +12,14 @@ export interface CreatedUserEmailParams {
   email: string;
   password: string;
 }
+
+export interface LoginEmailParams {
+  username: string;
+  names: string;
+  surnames: string;
+  email: string;
+  fecha: string;
+  ip: string;
+  navegador: string; 
+  sistema: string;
+}

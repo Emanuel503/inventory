@@ -1,4 +1,4 @@
-import { CreatedUserEmailParams, PasswordChangedEmailParams } from "./typesEmails";
+import { CreatedUserEmailParams, LoginEmailParams, PasswordChangedEmailParams } from "./typesEmails";
 
 function buildEmailTemplate(html: string){
   return `
@@ -82,6 +82,31 @@ export function buildCreatedUserEmail({username, names, surnames, email, passwor
                     <a class="btn" style="margin: 10px auto color: white;" href="${process.env.APP_URL}:${process.env.APP_PORT}">Inciar sesion</a>
 
                     <p style="margin-top:50px;">Esta es una contraseña temporal, debes cambiarla al iniciar sesion.</p>
+                  </div>
+                `;
+
+  const htmlContent = buildEmailTemplate(html)
+
+  return { subject, htmlContent };
+}
+
+export function buildLoginEmail({username, names, surnames, email, fecha, ip, navegador, sistema}: LoginEmailParams){
+  const subject = `${process.env.APP_NAME} Inicio de sesion`;
+  const html  = `<div>
+                    <h2>Inicio de sesion</h2>
+                    
+                    <p><strong>Usuario:</strong> ${username}</p>
+                    <p><strong>Nombre:</strong> ${names} ${surnames}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Fecha de incio de sesion:</strong>${fecha}</p>
+
+                    <br>
+
+                    <p><strong>Direccion IP:</strong> ${ip}</p>
+                    <p><strong>Navegador:</strong> ${navegador}</p>
+                    <p><strong>Sistema:</strong> ${sistema}</p>
+
+                    <p style="margin-top:50px;">Si tu no iniciaste sesion, por favor contacta con soporte inmediatamente.</p>
                   </div>
                 `;
 

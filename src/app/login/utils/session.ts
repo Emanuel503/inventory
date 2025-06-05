@@ -1,4 +1,5 @@
-import "server-only";
+"server-only";
+
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { SessionPayload } from "@/app/types";
@@ -6,6 +7,8 @@ import { Users } from "@prisma/client";
 import { headers } from "next/headers";
 import { UAParser } from 'ua-parser-js';
 import { prisma } from '@/utils/prisma'
+import { buildLoginEmail } from "@/emails/buildEmails";
+import { sendEmail } from "@/utils/serverFunctions";
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
@@ -35,7 +38,44 @@ export async function createSession(user: Users, access: string[]) {
         token: session,
         expiresAt: expiresAt
       }
-    })
+    });
+
+    const notificationsConfigure = await prisma.notificationsConfigure.findUnique({
+      select: {
+        emailSessions: true
+      },
+      where: {
+        idUser: user.id
+      }
+    });
+
+    //Envio de notificacion de correo
+    if(notificationsConfigure === null || notificationsConfigure.emailSessions){
+      const to = [{
+          name: `${user.names} ${user.surnames}`,
+          email: user.email
+      }];
+
+      const fechaActual = new Date()
+      const datos = {
+        username: user.username, 
+        names: user.names, 
+        surnames: user.surnames, 
+        email: user.email, 
+        ip: ip, 
+        navegador: userAgent.browser.toString(), 
+        sistema: device,
+        fecha: fechaActual.toLocaleDateString()
+      }
+
+      const { subject, htmlContent } = buildLoginEmail(datos);
+  
+      try{
+          await sendEmail(subject, htmlContent, to)
+      }catch(error){
+          console.error(JSON.stringify(error))
+      }
+    }
 }
 
 export async function deleteSession() {
