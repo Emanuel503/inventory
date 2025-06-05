@@ -112,3 +112,28 @@ export const idUserSchema = z.object({
         .trim()
         .min(1, " El id del usuario es requerido")
 });
+
+export const oldPasswordSchema = z.object({
+  oldPassword: z
+    .string()
+    .trim()
+    .min(1, "La contraseña actual es requerida")
+});
+
+export const passwordChangeSchema = z.object({
+  password: z
+    .string()
+    .max(20, " La contraseña debe contener 255 caracteres como maximo.")
+    .min(8, " La contraseña debe contener 3 caracteres como minimo.")
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])/, 
+      { message: " La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial."}
+    )
+    .trim()
+});
+
+export const confirmPasswordChangeSchema = z.object({
+  confirm_password: z
+    .string()
+    .min(1, "La confirmacion de la contraseña es requerida")
+    .trim()
+});

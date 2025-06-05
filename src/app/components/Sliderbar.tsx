@@ -5,6 +5,7 @@ import NavegationMenuNav from "./NavigationMenuNav";
 import { Card, CardContent} from "@/components/ui/card";
 import { MenusChildren } from "../types";
 import { Users } from "@prisma/client";
+import ChangePasswordAlert from "../login/components/ChangePasswordAlert";
 
 export default async function Sliderbar({
     children,
@@ -30,7 +31,10 @@ export default async function Sliderbar({
                         <NavBreadcrumb />
                         <Card>
                             <CardContent className="min-h-[85vh]">
-                                {children}
+                                <>
+                                    {children}
+                                    {!user.confirmedEmail && <ChangePasswordAlert user={user}/>}
+                                </>
                             </CardContent>
                         </Card>
                     </div>
