@@ -34,7 +34,7 @@ export async function saveAccessAction(prevState: unknown, formData: FormData) {
             success: false,
             message: `El acceso ya existe.`,
             errors: {
-                email: ["El acceso ya existe"]
+                idMenu: ["El acceso ya existe"]
             },
             fields: data
         };
