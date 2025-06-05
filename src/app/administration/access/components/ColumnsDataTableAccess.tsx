@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { List, Pencil } from "lucide-react"
+import { List } from "lucide-react"
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
