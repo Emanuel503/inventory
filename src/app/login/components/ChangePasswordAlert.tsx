@@ -36,7 +36,7 @@ export default function ChangePasswordAlert({user}: ChangePasswordAlertProps) {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Cambio de contraseña</AlertDialogTitle>
-                    <AlertDialogDescription>Debes cambiar tu contraseña temporal</AlertDialogDescription>
+                    <AlertDialogDescription>Debes cambiar tu contraseña</AlertDialogDescription>
                 </AlertDialogHeader>
                 <form action={formAction}>
                     <input type="hidden" name="id" defaultValue={user.id} />
