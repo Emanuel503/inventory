@@ -46,8 +46,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
     - Validar token de session ✅
     - Enviar correo cuando se incie sesion (Si esta configurado) ✅
     - Terminar estilos de correo de creacion de usuario ✅
-    - Confirmar correo electronico la primera vez que inicie sesion
-    - Cambiar contraseña cuando se incie sesion por primera vez
+    - Confirmar correo electronico la primera vez que inicie sesion ✅
+    - Cambiar contraseña cuando se incie sesion por primera vez ✅
 - Perfil de usuario
     - Edicion de usuario: nombre, apellidos, contraseña, foto ✅
     - Gestion de sesiones ✅
