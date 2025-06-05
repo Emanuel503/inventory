@@ -46,18 +46,6 @@ export async function login(prevState: unknown, formData: FormData) {
       };
     }
 
-    //Confirmacion de correo
-    if(!user.confirmedEmail){
-      await prisma.users.update({
-        data: {
-          confirmedEmail: new Date()
-        },
-        where: {
-          id: user.id
-        }
-      });
-    }
-
     const menus = await prisma.access.findMany({
       include: {
         menu:{
