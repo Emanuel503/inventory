@@ -1,59 +1,46 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "./app/login/utils/session";
 import { ResponseData } from "./app/types";
+import { cookies } from "next/headers";
+
+const AppUrl =  process.env.APP_URL as string;
+const AppPort =  process.env.APP_PORT as string;
+const ignoredRoutes = ["/_next", "/favicon.ico", "/robots.txt", "/.well-known", "/api/session", "/public/uploads/"];
 
 export default async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
-  const ignoredRoutes = ["/_next", "/favicon.ico", "/robots.txt", "/.well-known", "/api/session", "/public/uploads/"];
-
-  const AppUrl =  process.env.APP_URL as string;
-  const AppPort =  process.env.APP_PORT as string;
+  const cookie = (await cookies()).get("session")?.value;
 
   // Ignorar rutas internas del sistema
   if (ignoredRoutes.some((route) => path.startsWith(route))) {
     return NextResponse.next();
   }
 
-  const cookie = (await cookies()).get("session")?.value;
-  const session = cookie ? await decrypt(cookie) : null;
-  
-  const isAuthenticated = !!session?.user;
+  //Obtenemos la sesion
+  const res = await fetch(`${AppUrl}:${AppPort}/api/session`, {
+      cache: 'no-store',
+      headers: {
+        Cookie: `session=${cookie}`,
+    },
+  });
+  const { valid, session }: ResponseData = await res.json();  
   
   // Si no esta autenticado
-  if (!isAuthenticated && path != '/login') {
+  if (!valid && path != '/login') {
+    (await cookies()).delete("session");
     request.nextUrl.pathname = "/login";
     return NextResponse.redirect(request.nextUrl);
   }
 
   // Si autenticado pero intenta acceder al login
-  if (isAuthenticated && path == '/login') {
+  if (valid && path == '/login') {
     request.nextUrl.pathname = "/dashboard";
     return NextResponse.redirect(request.nextUrl);
   }
 
-  // Si autenticado pero no tiene permiso a esa ruta y no es administrador
-  if (isAuthenticated && !session.access.some((allowedPath: string) => path.startsWith(allowedPath)) && session.user.idRol != 1) {
+  // // Si autenticado pero no tiene permiso a esa ruta y no es administrador
+  if (valid && session!.user.idRol != 1 && !session!.access.some((allowedPath: string) => path.startsWith(allowedPath))) {
     request.nextUrl.pathname = "/dashboard";
     return NextResponse.redirect(request.nextUrl);
-  }
-
-  //Validacion del token de sesion
-  if (isAuthenticated) {
-    const res = await fetch(`${AppUrl}:${AppPort}/api/session`, {
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-      cache: 'no-store',
-    });
-
-    const data: ResponseData = await res.json();
-    if(!data.valid){
-
-      (await cookies()).delete("session");
-      request.nextUrl.pathname = "/login";
-      return NextResponse.redirect(request.nextUrl);
-    }
   }
 
   return NextResponse.next();

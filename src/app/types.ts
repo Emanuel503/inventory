@@ -25,6 +25,7 @@ export type SessionPayload = {
 
 export interface ResponseData{
   success: boolean;
-  message?: string;
-  valid?: boolean;
+  message: string;
+  valid: boolean;
+  session: SessionPayload|null;
 }
