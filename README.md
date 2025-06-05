@@ -44,16 +44,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Validacion de rutas por rol ✅
 - Login ✅
     - Validar token de session ✅
-    - Enviar correo cuando se incie sesion (Si esta configurado)
-    - Terminar estilos de correo de creacion de usuario
+    - Enviar correo cuando se incie sesion (Si esta configurado) ✅
+    - Terminar estilos de correo de creacion de usuario ✅
     - Confirmar correo electronico la primera vez que inicie sesion
+    - Cambiar contraseña cuando se incie sesion por primera vez
 - Perfil de usuario
     - Edicion de usuario: nombre, apellidos, contraseña, foto ✅
     - Gestion de sesiones ✅
-    - Gestion de preferencias de correos electronicos
-        - Cambios de contraseña
-        - Actualizaciones del sistema
-        - Inicio de sesiones
+    - Gestion de preferencias de correos electronicos ✅
+        - Cambios de contraseña ✅
+        - Actualizaciones del sistema ✅
+        - Inicio de sesiones ✅
     - Configuracion de doble factor de autenticacion
 
 - Modulo de inventario
