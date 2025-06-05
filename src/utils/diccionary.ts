@@ -1,0 +1,16 @@
+export const diccionary: { [key: string]: string } = {
+    "show": "Detalles",
+    "edit": "Editar",
+    "add": "Agregar",
+    "dashboard" : "Dashboard",
+    "administration": "Administración",
+    "roles": "Roles",
+    "users": "Usuarios",
+    "access": "Accesos",
+    "settings": "Configuración",
+    "general": "General",
+    "account": "Cuenta",
+    "profile": "Perfil",
+    "sessions": "Seciones",
+    "notifications": "Notificaciones",
+}
