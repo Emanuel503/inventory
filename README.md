@@ -57,8 +57,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
         - Inicio de sesiones ✅
     - Configuracion (Seguridad)
         - Habilitar el 2FA
-- Configuracion de sistema
-    - Agregar configuracion al sistema para que el 2FA: sea obligatorio o sea opcional
+- Configuracion de sistema ✅
+    - Agregar configuracion al sistema para que el 2FA: sea obligatorio o sea opcional ✅
 
 - Modulo de inventario
     - Gestion de categorias
