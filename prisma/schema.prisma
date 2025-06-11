@@ -35,6 +35,9 @@ model Users {
   enabled           Boolean     @default(true)
   password          String
   image             String?
+  twoFactorAuth     Boolean     @default(false)
+  twoFactorCode     String?
+  twoFactorConfirm  DateTime?
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   sessions          Sessions[]
