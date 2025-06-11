@@ -396,7 +396,7 @@ export async function editSecurityAction(prevState: unknown, formData: FormData)
 
     await prisma.users.update({
         data: {
-            enabled: formData.get('emailSessions') === 'on',
+            twoFactorAuth: formData.get('twofactorAuth') === 'on',
         },
         where: {
             id: Number(validations.data.idUser)

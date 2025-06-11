@@ -29,6 +29,7 @@ export default function FormEditSecurity({user, systemConfigure}: FormEditSecuri
   return (
     <>
       <form action={formAction}>
+         <input type="hidden" name="idUser" defaultValue={user.id}/>
          <div className="grid w-full items-center gap-5">
           {
               systemConfigure?.twofactoreRequired &&
@@ -37,10 +38,10 @@ export default function FormEditSecurity({user, systemConfigure}: FormEditSecuri
           <div className="flex items-center space-x-2">
             {
               systemConfigure?.twofactoreRequired 
-              ? <Switch id="twofactoreRequired" name="twofactoreRequired" defaultChecked={true} disabled={true}/>
-              : <Switch id="twofactoreRequired" name="twofactoreRequired" defaultChecked={user.enabled}/>
+              ? <Switch id="twofactorAuth" name="twofactorAuth" defaultChecked={true} disabled={true}/>
+              : <Switch id="twofactorAuth" name="twofactorAuth" defaultChecked={user.twoFactorAuth}/>
             }
-            <Label htmlFor="twofactoreRequired">Doble autenticacion por correo electronico</Label>
+            <Label htmlFor="twofactorAuth">Doble autenticacion por correo electronico</Label>
           </div>
 
           <div className="flex justify-between mt-10">
