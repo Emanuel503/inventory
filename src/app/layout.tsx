@@ -97,7 +97,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {
-          session?.user 
+          (session?.user && session.user.twoFactorAuth && session.user.twoFactorConfirm) 
           ? <Sliderbar menus={menus} appName={appName} companyName={companyName} user={session.user}>
               {children} 
               <Toaster position="top-right" richColors />
