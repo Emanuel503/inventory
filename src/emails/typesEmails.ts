@@ -23,3 +23,12 @@ export interface LoginEmailParams {
   navegador: string; 
   sistema: string;
 }
+
+export interface TwoFactorAuthEmailParams {
+  username: string;
+  names: string;
+  surnames: string;
+  email: string;
+  fecha: string;
+  code: number;
+}
