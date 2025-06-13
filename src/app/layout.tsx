@@ -91,13 +91,24 @@ export default async function RootLayout({
     })
   }  
 
+  const systemConfig = await prisma.systemConfigure.findUnique({
+    select:{
+      twofactoreRequired: true
+    },
+    where: {
+      id: 1
+    }
+  });
+
+  const twoFactor = systemConfig!.twofactoreRequired || session?.user.twoFactorAuth;
+  
   return (
     <html lang="es" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {
-          (session?.user && session.user.twoFactorAuth && session.user.twoFactorConfirm) 
+          (session?.user && (!twoFactor || session.user.twoFactorConfirm)) 
           ? <Sliderbar menus={menus} appName={appName} companyName={companyName} user={session.user}>
               {children} 
               <Toaster position="top-right" richColors />

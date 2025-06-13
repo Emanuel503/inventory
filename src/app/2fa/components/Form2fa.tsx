@@ -7,7 +7,6 @@ import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { twoFactorAuth } from "../utils/actions";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { useRouter } from "next/navigation";
 
 interface Form2faProps{
     user: Users
@@ -15,7 +14,6 @@ interface Form2faProps{
 
 export default function Form2fa({user}: Form2faProps) {
     const [state, formAction, pending] = useActionState(twoFactorAuth, { success: false, message: "", errors: undefined });
-    const router = useRouter();
 
     useEffect(() => {
         if (state.success) {
@@ -23,10 +21,11 @@ export default function Form2fa({user}: Form2faProps) {
                 closeButton: true,
                 description: `Fecha de confirmación ${new Date().toLocaleString()}`,
             });
-            
-            router.push("/dashboard")
+
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+            }, 500)
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state]);
 
     return (
