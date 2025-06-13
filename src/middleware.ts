@@ -36,9 +36,7 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(request.nextUrl);
   }
 
-  // Si autenticado pero intenta acceder al login o 2fa
-  console.log(session);
-  
+  // Si autenticado pero intenta acceder al login o 2fa  
   if ((valid && path == '/login') || (session?.user.twoFactorAuth && session?.user.twoFactorConfirm && path == '/2fa')) {
     request.nextUrl.pathname = "/dashboard";
     return NextResponse.redirect(request.nextUrl);
