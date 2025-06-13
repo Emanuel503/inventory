@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
 import { Users } from "@prisma/client"
 import { useActionState, useEffect } from "react";
-import { toast } from "sonner";
 import { twoFactorAuth } from "../utils/actions";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { useRouter } from "next/navigation";
 
 interface Form2faProps{
     user: Users
@@ -14,19 +14,14 @@ interface Form2faProps{
 
 export default function Form2fa({user}: Form2faProps) {
     const [state, formAction, pending] = useActionState(twoFactorAuth, { success: false, message: "", errors: undefined });
+    const router = useRouter();
 
     useEffect(() => {
-        if (state.success) {
-            toast.success(`${state.message}`, {
-                closeButton: true,
-                description: `Fecha de confirmación ${new Date().toLocaleString()}`,
-            });
-
-            setTimeout(() => {
-                window.location.href = "/dashboard";
-            }, 500)
+        if (user.twoFactorConfirm) {
+            router.push('/dashboard')
         }
-    }, [state]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user.twoFactorConfirm]);
 
     return (
         <form action={formAction} className="flex flex-col items-center justify-center">
