@@ -98,7 +98,7 @@ export function buildLoginEmail({username, names, surnames, email, fecha, ip, na
                     <p><strong>Usuario:</strong> ${username}</p>
                     <p><strong>Nombre:</strong> ${names} ${surnames}</p>
                     <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Fecha de incio de sesion:</strong>${fecha}</p>
+                    <p><strong>Fecha de incio de sesion:</strong> ${fecha}</p>
 
                     <br>
 
@@ -123,7 +123,7 @@ export function buildTwoFactorAuthEmail({username, names, surnames, email, fecha
                     <p><strong>Usuario:</strong> ${username}</p>
                     <p><strong>Nombre:</strong> ${names} ${surnames}</p>
                     <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Fecha de incio de sesion:</strong>${fecha}</p>
+                    <p><strong>Fecha de incio de sesion:</strong> ${fecha}</p>
 
                     <br>
 
