@@ -35,10 +35,14 @@ model Users {
   enabled           Boolean     @default(true)
   password          String
   image             String?
+  twoFactorAuth     Boolean     @default(false)
+  twoFactorCode     String?
+  twoFactorConfirm  DateTime?
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   sessions          Sessions[]
   notificationsConfigure    NotificationsConfigure?
+  systemConfigure           SystemConfigure[]
 }
 
 model Menus {
@@ -91,4 +95,12 @@ model NotificationsConfigure {
   updatesSystem   Boolean   @default(true)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+}
+
+model SystemConfigure {
+  id                      Int     @id @default(autoincrement())
+  twofactoreRequired      Boolean @default(false)
+  idUserUpdate            Int
+  updatedAt               DateTime @updatedAt
+  user                    Users   @relation(fields: [idUserUpdate], references: [id])
 }

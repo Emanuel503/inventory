@@ -28,4 +28,5 @@ export interface ResponseData{
   message: string;
   valid: boolean;
   session: SessionPayload|null;
+  twofactoreRequired: boolean|null;
 }

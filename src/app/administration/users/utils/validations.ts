@@ -137,3 +137,11 @@ export const confirmPasswordChangeSchema = z.object({
     .min(1, "La confirmacion de la contraseña es requerida")
     .trim()
 });
+
+export const codeSchema = z.object({
+    code: z
+        .string()
+        .max(6, " El codigo de verficación debe contener 6 caracteres como maximo.")
+        .min(6, " El codigo de verficación debe contener 6 caracteres como minimo.")
+        .trim()
+});

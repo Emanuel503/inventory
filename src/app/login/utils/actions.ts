@@ -1,7 +1,7 @@
 "use server";
 
 import { emailSchema, passwordSchema } from "../validations/zod";
-import { createSession, deleteSession } from "./session";
+import { createSession, createSessionTwoFactorAuth, deleteSession } from "./session";
 import { redirect } from "next/navigation";
 import { prisma } from '@/utils/prisma'
 import bcrypt from "bcrypt";
@@ -61,9 +61,22 @@ export async function login(prevState: unknown, formData: FormData) {
     
     const access = menus.map((menu) => menu.menu.url);
   
-    await createSession(user, access);
-        
-    redirect("/dashboard");
+    const systemConfig = await prisma.systemConfigure.findUnique({
+      select: {
+        twofactoreRequired: true
+      },
+      where: {
+        id: 1
+      }
+    });
+
+    if(user.twoFactorAuth || systemConfig!.twofactoreRequired){
+      await createSessionTwoFactorAuth(user);
+      redirect('/2fa');
+    }else{
+      await createSession(user, access);
+      redirect('/dashboard');
+    }
   }else{
     return {
       errors: {

@@ -1,4 +1,4 @@
-import { CreatedUserEmailParams, LoginEmailParams, PasswordChangedEmailParams } from "./typesEmails";
+import { CreatedUserEmailParams, LoginEmailParams, PasswordChangedEmailParams, TwoFactorAuthEmailParams } from "./typesEmails";
 
 function buildEmailTemplate(html: string){
   return `
@@ -98,13 +98,37 @@ export function buildLoginEmail({username, names, surnames, email, fecha, ip, na
                     <p><strong>Usuario:</strong> ${username}</p>
                     <p><strong>Nombre:</strong> ${names} ${surnames}</p>
                     <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Fecha de incio de sesion:</strong>${fecha}</p>
+                    <p><strong>Fecha de incio de sesion:</strong> ${fecha}</p>
 
                     <br>
 
                     <p><strong>Direccion IP:</strong> ${ip}</p>
                     <p><strong>Navegador:</strong> ${navegador}</p>
                     <p><strong>Sistema:</strong> ${sistema}</p>
+
+                    <p style="margin-top:50px;">Si tu no iniciaste sesion, por favor contacta con soporte inmediatamente.</p>
+                  </div>
+                `;
+
+  const htmlContent = buildEmailTemplate(html)
+
+  return { subject, htmlContent };
+}
+
+export function buildTwoFactorAuthEmail({username, names, surnames, email, fecha, code}: TwoFactorAuthEmailParams){
+  const subject = `${process.env.APP_NAME} Codigo de confirmacion de inicio de sesion`;
+  const html  = `<div>
+                    <h2>Inicio de sesion de doble factor</h2>
+                    
+                    <p><strong>Usuario:</strong> ${username}</p>
+                    <p><strong>Nombre:</strong> ${names} ${surnames}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Fecha de incio de sesion:</strong> ${fecha}</p>
+
+                    <br>
+
+                    <p><strong>Codigo:</strong></p>
+                    <h2>${code}</h2>
 
                     <p style="margin-top:50px;">Si tu no iniciaste sesion, por favor contacta con soporte inmediatamente.</p>
                   </div>

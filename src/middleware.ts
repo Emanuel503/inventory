@@ -22,7 +22,14 @@ export default async function middleware(request: NextRequest) {
         Cookie: `session=${cookie}`,
     },
   });
-  const { valid, session }: ResponseData = await res.json();  
+  const { valid, session, twofactoreRequired }: ResponseData = await res.json();
+  
+  //Valida si esta verficado por dos pasos
+  const twoFactorAuth = session?.user.twoFactorAuth || twofactoreRequired;
+  if (valid && twoFactorAuth && !session?.user.twoFactorConfirm && path != '/2fa') {
+    request.nextUrl.pathname = "/2fa";
+    return NextResponse.redirect(request.nextUrl);
+  }
   
   // Si no esta autenticado
   if (!valid && path != '/login') {
@@ -31,8 +38,8 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(request.nextUrl);
   }
 
-  // Si autenticado pero intenta acceder al login
-  if (valid && path == '/login') {
+  // Si autenticado pero intenta acceder al login o 2fa 
+  if ((valid && path == '/login') || (twoFactorAuth && session?.user.twoFactorConfirm && path == '/2fa')) {
     request.nextUrl.pathname = "/dashboard";
     return NextResponse.redirect(request.nextUrl);
   }

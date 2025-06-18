@@ -376,3 +376,32 @@ export async function changePasswordFirstLoginAction(prevState: unknown, formDat
 
     return { success: true, message: `Contraseña modificada correctamente` }; 
 }
+
+export async function editSecurityAction(prevState: unknown, formData: FormData) {
+    const data = Object.fromEntries(formData) as Record<string, string>;
+
+    //Validations
+    const createSecuritySchema = idUserSchema;
+
+    const validations = createSecuritySchema.safeParse(Object.fromEntries(formData))
+
+    if (!validations.success) {
+        return {
+            success: false,
+            message: "Completa todos los campos",
+            errors: validations.error.flatten().fieldErrors,
+            fields: data
+        };
+    }
+
+    await prisma.users.update({
+        data: {
+            twoFactorAuth: formData.get('twofactorAuth') === 'on',
+        },
+        where: {
+            id: Number(validations.data.idUser)
+        }
+    })
+
+    return { success: true, message: `Preferencias de seguridad modificada correctamente` }; 
+}

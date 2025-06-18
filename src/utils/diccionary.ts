@@ -13,4 +13,5 @@ export const diccionary: { [key: string]: string } = {
     "profile": "Perfil",
     "sessions": "Seciones",
     "notifications": "Notificaciones",
+    "security": "Seguridad",
 }
