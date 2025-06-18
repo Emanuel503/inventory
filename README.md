@@ -48,15 +48,15 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
     - Terminar estilos de correo de creacion de usuario ✅
     - Confirmar correo electronico la primera vez que inicie sesion ✅
     - Cambiar contraseña cuando se incie sesion por primera vez ✅
-- Perfil de usuario
+- Perfil de usuario ✅
     - Edicion de usuario: nombre, apellidos, contraseña, foto (Perfil) ✅
     - Gestion de sesiones (Sesiones) ✅
     - Gestion de preferencias de correos electronicos (Notificaciones) ✅
         - Cambios de contraseña ✅
         - Actualizaciones del sistema ✅
         - Inicio de sesiones ✅
-    - Configuracion (Seguridad)
-        - Habilitar el 2FA
+    - Configuracion (Seguridad) ✅
+        - Habilitar el 2FA ✅
 - Configuracion de sistema ✅
     - Agregar configuracion al sistema para que el 2FA: sea obligatorio o sea opcional ✅
 
